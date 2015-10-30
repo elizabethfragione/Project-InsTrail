@@ -5,12 +5,12 @@ class Photo < ActiveRecord::Base
 		@photo_location = p_location
 	end
 
-	def get_trail_location()
-		self.trail_name
-	end
+#	def get_trail_location()
+#		self.trail_name
+#	end
 	
-	def get_photo_location()
-		self.trail_location
-	end
+#	def get_photo_location()
+#		self.trail_location
+#	end
 
 end
