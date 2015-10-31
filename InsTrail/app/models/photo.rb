@@ -1,5 +1,5 @@
 class Photo < ActiveRecord::Base
-	def init(t_name, t_location, p_location )
+	def initialize(t_name, t_location, p_location )
 		@trail_name = t_name
 		@trail_location = t_location
 		@photo_location = p_location
