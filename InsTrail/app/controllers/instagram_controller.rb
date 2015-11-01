@@ -57,8 +57,8 @@ class InstagramController < ApplicationController
   def createTrail
     count = 0
     @@trail_names.each do |name, count|
-      if (count = 10) 
-        cound = 0
+      if (count == 10) 
+        count = 0
         puts "Have to time out"
         sleep 2
       else
