@@ -13,10 +13,15 @@ class InstagramController < ApplicationController
       marker.lat trail.get_lat
       marker.lng trail.get_lon
       marker.infowindow "hello"
+      
+      marker.picture({
+                  :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|FF0000|000000',
+                  #:url    => 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red' + trail.get_count.to_s + '.png',
+                  #:picture => ActionController::Base.helpers.image_path("settings_logo.png"),
+                  :width  => 36,
+                  :height => 36
+                 })
     end
-  end
-
-  def stubFilter
   end
   
   def instagram_api_call()
