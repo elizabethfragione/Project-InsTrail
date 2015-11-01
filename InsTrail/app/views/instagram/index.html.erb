@@ -87,15 +87,6 @@
 	handler.buildMap({ provider: {}, internal: {id: 'map'}}, 
 		function(){
 
-      marker = new MarkerWithLabel({
-            map: maps,
-            position: coordinate,
-            icon : yourMarkerImage,
-            labelContent : yourNumberOnMarker,
-            labelAnchor : yourLabelPosition,     // e.g. new google.maps.Point(21, 10);
-            labelClass : "labels",          // the CSS class for the label
-            labelInBackground : false
-        });
 			
       markers = handler.addMarkers(<%=raw @hash.to_json %>);
       /*markers = handler.addMarkers([

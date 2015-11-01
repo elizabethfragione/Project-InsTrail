@@ -2,7 +2,7 @@ class InstagramController < ApplicationController
   @@TAG = "vancouvertrails"
   @image_data = Array.new
   @@API_CALLS = 5
-  @@count_of_names = Hash.new(0)
+  @@trail_names = Hash.new(0)
   
   def index
     instagram_api_call()
@@ -32,9 +32,9 @@ class InstagramController < ApplicationController
   def countNames()
     @image_data.each do |image|
       name = image.location.name
-      @@count_of_names[name] += 1
+      @@trail_names[name] += 1
     end    
-    puts @@count_of_names
+    puts @@trail_names
   end
 
   
