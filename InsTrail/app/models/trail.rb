@@ -17,5 +17,7 @@ class Trail
 	def get_count
 		return @count
 	end
-
+  def get_name
+    return @name
+  end
 end
