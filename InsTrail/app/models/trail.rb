@@ -1,21 +1,34 @@
 class Trail 
   @name 
   @latlong
-	@count 
+  @count 
   # initialize trail with name, lat_long info and photo count
-	def initialize(name, latlong, count)
+  def initialize(name, latlong, count)
     @name = name
     @latlong = latlong
   	@count = count
 		
-	end
-  # getter for lat_long
-  def get_latlong
-    return @latlong
   end
+  # getter for lat_long
+  def get_latlon
+    @latlong
+  end
+
+  def get_lat
+  	if !@latlong.nil?
+  		@latlong[0]
+  	end
+  end
+
+  def get_lon
+  	if !@latlong.nil?
+  		@latlong[1]
+  	end
+  end
+
   # getter for count
-	def get_count
-		return @count
-	end
+  def get_count
+		@count
+  end
 
 end

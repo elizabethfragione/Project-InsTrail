@@ -3,46 +3,44 @@ class InstagramController < ApplicationController
   @image_data = Array.new
   @@API_CALLS = 5
   @@trail_names = Hash.new(0)
+  @@list_of_trails = Array.new
   
   def index
     instagram_api_call()
     countNames()
     createTrail
-    # map functionality
-
-    #temp_latlong = Geocoder.coordinates("Vancouver BC")
-    #@test_trail = Trail.new("Vancouver BC", temp_latlong ,1)
-    #@trails = [@test_trail] 
-      
-    #@hash = Gmaps4rails.build_markers(@trails) do |trail, marker|
-     # marker.lat trail.get_lat
-      #marker.lng trail.get_lon
-      #marker.infowindow "hello"
-      
-      #marker.picture({
-        #          :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|FF0000|000000',
     addPinsToMap()
 
   end
 
   def addPinsToMap()
-    # map functionality
+    #map functionality
     #@test_trail = Trail.new(49.2827, -123.1139268)
     #@trails = [@test_trail] 
-    #@hash = Gmaps4rails.build_markers(@trails) do |trail, marker|
-     # marker.lat trail.get_lat
-      #marker.lng trail.get_lon
-      #marker.infowindow "hello"
-      
-    #  marker.picture({
-     #             :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=10|FF0000|000000',
-      #             d313312d0c043af5a47beed5e70698a610b2d4e1
-                  #:url    => 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red' + trail.get_count.to_s + '.png',
-                  #:picture => ActionController::Base.helpers.image_path("settings_logo.png"),
-         #         :width  => 36,
-          #        :height => 36
-           #      })
-    #end
+    @hash = Gmaps4rails.build_markers(@@list_of_trails) do |trail, marker|
+      if !trail.nil?
+        if !trail.get_latlon.nil?
+
+          puts "_____________________________________________"
+          marker.lat trail.get_lat
+          puts "lat: " + trail.get_lat.to_s
+          marker.lng trail.get_lon
+          puts "lon: " + trail.get_lon.to_s
+          marker.infowindow "hello"
+
+          count_str = trail.get_count.to_s
+          url_for_marker = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + count_str +'|FF0000|000000'
+          
+          marker.picture({
+                      :url => url_for_marker,
+                      #:url    => 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red' + trail.get_count.to_s + '.png',
+                      #:picture => ActionController::Base.helpers.image_path("settings_logo.png"),
+                      :width  => 36,
+                      :height => 36
+                     })
+        end
+      end
+    end
   end
 
 
@@ -60,6 +58,7 @@ class InstagramController < ApplicationController
     @@trail_names.each do |name, count|
       lat_long = Geocoder.coordinates(name)
       @trail = Trail.new(name, lat_long, count)
+      @@list_of_trails << @trail
       puts @trail
     end
   end
