@@ -1,21 +1,21 @@
-class Trail < ActiveRecord::Base
-	def initialize(lattitude, longitude)
-		@lat = lattitude
-		@lon = longitude
-		@count = 1
+class Trail 
+  @name 
+  @latlong
+	@count 
+  # initialize trail with name, lat_long info and photo count
+	def initialize(name, latlong, count)
+    @name = name
+    @latlong = latlong
+  	@count = count
 		
 	end
-
-	def get_lat()
-		@lat
-	end
-
-	def get_lon()
-		@lon
-	end
-
-	def get_count()
-		@count
+  # getter for lat_long
+  def get_latlong
+    return @latlong
+  end
+  # getter for count
+	def get_count
+		return @count
 	end
 
 end

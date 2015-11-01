@@ -7,24 +7,26 @@ class InstagramController < ApplicationController
   def index
     instagram_api_call()
     countNames()
-        
+    createTrail
     # map functionality
-    @test_trail = Trail.new(49.2827, -123.1139268)
-    @trails = [@test_trail] 
+
+    #temp_latlong = Geocoder.coordinates("Vancouver BC")
+    #@test_trail = Trail.new("Vancouver BC", temp_latlong ,1)
+    #@trails = [@test_trail] 
       
-    @hash = Gmaps4rails.build_markers(@trails) do |trail, marker|
-      marker.lat trail.get_lat
-      marker.lng trail.get_lon
-      marker.infowindow "hello"
+    #@hash = Gmaps4rails.build_markers(@trails) do |trail, marker|
+     # marker.lat trail.get_lat
+      #marker.lng trail.get_lon
+      #marker.infowindow "hello"
       
-      marker.picture({
-                  :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|FF0000|000000',
+      #marker.picture({
+        #          :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|FF0000|000000',
                   #:url    => 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red' + trail.get_count.to_s + '.png',
                   #:picture => ActionController::Base.helpers.image_path("settings_logo.png"),
-                  :width  => 36,
-                  :height => 36
-                 })
-    end
+         #         :width  => 36,
+          #        :height => 36
+           #      })
+    #end
   end
 
 
@@ -34,9 +36,16 @@ class InstagramController < ApplicationController
       name = image.location.name
       @@trail_names[name] += 1
     end    
-    puts @@trail_names
+    #puts @@trail_names
   end
 
+  def createTrail
+    @@trail_names.each do |name, count|
+      lat_long = Geocoder.coordinates(name)
+      @trail = Trail.new(name, lat_long, count)
+      puts @trail
+    end
+  end
   
   
   def instagram_api_call()
