@@ -2,9 +2,12 @@ class InstagramController < ApplicationController
   @@TAG = "vancouvertrails"
   @image_data = Array.new
   @@API_CALLS = 5
+  @@count_of_names = Hash.new(0)
   
   def index
     instagram_api_call()
+    countNames()
+        
     # map functionality
     @test_trail = Trail.new(49.2827, -123.1139268)
     @trails = [@test_trail] 
@@ -16,8 +19,15 @@ class InstagramController < ApplicationController
     end
   end
 
-  def stubFilter
+  
+  def countNames()
+    @image_data.each do |image|
+      name = image.location.name
+      @@count_of_names[name] += 1
+    end    
+    puts @@count_of_names
   end
+  
   
   def instagram_api_call()
     # initial tag_recent_media
@@ -28,6 +38,8 @@ class InstagramController < ApplicationController
     # number of API calls for tag recent media
     @image_data = get_tag_recent_media(@@TAG, @image_data,next_max_id)
     perc_null_location = perc_null_location(@image_data)
+    
+    
   end
   
   def get_tag_recent_media(tag, image_data, next_max_id)
