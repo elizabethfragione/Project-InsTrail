@@ -49,8 +49,16 @@
                       </div>
 
                     </div>
-                    <button id="refresh-button" type="button" class="btn btn-primary" >Refresh Map</button>
-                    <%= button_to "Refresh Map", { :controller => "instagram", :action => 'index'}, :method => :get %>
+                    <div id="refresh-button-container" max-width="96px" max-height="48px">
+                      <%= link_to "Refresh Map", { :controller => "instagram", :action => 'index'}, 
+                        {:class => 'btn btn-primary', :id => 'refresh-button',
+                        :style => 'background-color:#00A400;color:white'}  %>
+                    </div>
+                    
+
+                    <%= button_to "Refresh Map", { :controller => "instagram", :action => 'index', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
+                    <%= link_to "Refresh Map", { :controller => "instagram", :action => 'index', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
+
                     <!--<div class="row refresh-row">
                       <button id="refresh-button" type="button" class="btn btn-primary" >Refresh Map</button>
                     </div>-->

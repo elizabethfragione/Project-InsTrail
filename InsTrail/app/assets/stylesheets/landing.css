@@ -139,10 +139,16 @@ button:hover {
 
 #refresh-button {
   margin-left: auto !important;
-  margin-right: auto;
+  margin-right: auto !important;
   margin-top: 12px;
-  display: block;
+  /*display: block;*/
 
+}
+
+#refresh-button-container {
+  margin-left: 448px;
+  margin-right: auto !important;
+  display: block;
 }
 
 
