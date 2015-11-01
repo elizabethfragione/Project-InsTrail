@@ -2,19 +2,9 @@ class InstagramController < ApplicationController
   @@TAG = "vancouvertrails"
   @image_data = Array.new
   @@API_CALLS = 5
+  
   def index
-    tag1 = "vancouvertrails"
-    tag2 = "vancouverhike"
-    @recent_media = Instagram.user_recent_media(@user_id, {:count => 1})
-    
-    # initial tag_recent_media
-    @image_data = Instagram.tag_recent_media(@@TAG, {})
-    next_max_id = @image_data.pagination.next_max_tag_id
-    
-    # number of API calls for tag recent media
-    @image_data = get_tag_recent_media(@@TAG, @image_data,next_max_id)
-    perc_null_location = perc_null_location(@image_data)
-    
+    instagram_api_call()
     # map functionality
     @test_trail = Trail.new(49.2827, -123.1139268)
     @trails = [@test_trail] 
@@ -29,20 +19,43 @@ class InstagramController < ApplicationController
   def stubFilter
   end
   
+  def instagram_api_call()
+    # initial tag_recent_media
+    @image_data = Instagram.tag_recent_media(@@TAG, {})
+    next_max_id = @image_data.pagination.next_max_tag_id
+    @image_data = filter_by_location(@image_data)
+    
+    # number of API calls for tag recent media
+    @image_data = get_tag_recent_media(@@TAG, @image_data,next_max_id)
+    perc_null_location = perc_null_location(@image_data)
+  end
+  
   def get_tag_recent_media(tag, image_data, next_max_id)
     iter = 0
     num_images = 0
     while iter < @@API_CALLS
-      tag_media = Instagram.tag_recent_media(tag, {:max_id => next_max_id})
+      non_filtered_tag_media = Instagram.tag_recent_media(tag, {:max_id => next_max_id})
+      next_max_id = non_filtered_tag_media.pagination.next_max_tag_id
+      tag_media = filter_by_location(non_filtered_tag_media)
       image_data = image_data + tag_media
       
-      next_max_id = tag_media.pagination.next_max_tag_id
       num_images += tag_media.length
       iter = iter + 1
       print "Number of Images so far: "
       puts num_images
     end
+    
     return image_data
+  end
+  
+  def filter_by_location(non_filtered_tag_media)
+    tag_media = Array.new
+    non_filtered_tag_media.each do |image|
+      unless image.location.nil?
+        tag_media << image
+      end
+    end
+    return tag_media
   end
   
   def perc_null_location(image_data)
