@@ -26,7 +26,7 @@ class InstagramController < ApplicationController
           puts "lat: " + trail.get_lat.to_s
           marker.lng trail.get_lon
           puts "lon: " + trail.get_lon.to_s
-          marker.infowindow "hello"
+          marker.infowindow trail.get_name
 
           count_str = trail.get_count.to_s
           url_for_marker = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + count_str +'|FF0000|000000'
@@ -65,8 +65,6 @@ class InstagramController < ApplicationController
         count = count + 1
         lat_lon = Geocoder.coordinates(name)
         if !lat_lon.nil? && 48.931235 <= lat_lon[0] && lat_lon[0] <= 50.811827 && -128.530631 <= lat_lon[1] && lat_lon[1] <= -122.235670
-      
-          
           @trail = Trail.new(name, lat_lon, count)
           @@list_of_trails << @trail
           puts @trail.get_name()
