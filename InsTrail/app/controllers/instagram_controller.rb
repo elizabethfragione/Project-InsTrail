@@ -21,6 +21,21 @@ class InstagramController < ApplicationController
       
       #marker.picture({
         #          :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|FF0000|000000',
+    addPinsToMap()
+  end
+
+  def addPinsToMap()
+    # map functionality
+    #@test_trail = Trail.new(49.2827, -123.1139268)
+    #@trails = [@test_trail] 
+    #@hash = Gmaps4rails.build_markers(@trails) do |trail, marker|
+     # marker.lat trail.get_lat
+      #marker.lng trail.get_lon
+      #marker.infowindow "hello"
+      
+    #  marker.picture({
+     #             :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=10|FF0000|000000',
+      #             d313312d0c043af5a47beed5e70698a610b2d4e1
                   #:url    => 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red' + trail.get_count.to_s + '.png',
                   #:picture => ActionController::Base.helpers.image_path("settings_logo.png"),
          #         :width  => 36,
@@ -28,6 +43,7 @@ class InstagramController < ApplicationController
            #      })
     #end
   end
+
 
 
   
