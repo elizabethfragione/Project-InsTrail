@@ -22,6 +22,7 @@ class InstagramController < ApplicationController
       #marker.picture({
         #          :url => 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|FF0000|000000',
     addPinsToMap()
+
   end
 
   def addPinsToMap()
