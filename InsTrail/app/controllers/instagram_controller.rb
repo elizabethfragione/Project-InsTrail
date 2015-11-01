@@ -51,23 +51,25 @@ class InstagramController < ApplicationController
       name = image.location.name
       @@trail_names[name] += 1
     end    
-    puts @@trail_names
+    #puts @@trail_names
   end
 
   def createTrail
-    count = 0
+    itr = 0
     @@trail_names.each do |name, count|
-      if (count == 10) 
-        count = 0
-        puts "Have to time out"
-        sleep 2
+      t = Time.now
+      if (itr == 10) 
+        itr = 0
+        #puts "Have to time out"
+        sleep (t + 1 - Time.now)
       else
-        count = count + 1
+        itr += 1
+        #puts itr
         lat_lon = Geocoder.coordinates(name)
         if !lat_lon.nil? && 48.931235 <= lat_lon[0] && lat_lon[0] <= 50.811827 && -128.530631 <= lat_lon[1] && lat_lon[1] <= -122.235670
           @trail = Trail.new(name, lat_lon, count)
           @@list_of_trails << @trail
-          puts @trail.get_name()
+          #puts @trail.get_name()
         end
       end
     end
