@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151030201629) do
+ActiveRecord::Schema.define(version: 20151031005928) do
 
   create_table "insta_models", force: :cascade do |t|
     t.text     "recent_media"
@@ -20,6 +20,11 @@ ActiveRecord::Schema.define(version: 20151030201629) do
   end
 
   create_table "photos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "trails", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

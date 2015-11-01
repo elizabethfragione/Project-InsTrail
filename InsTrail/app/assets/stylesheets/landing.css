@@ -1,0 +1,261 @@
+.fa{
+    color:black;
+}
+
+.fa:hover {
+    text-shadow: 2px 2px 2px #2E5CB8;
+}
+
+button {
+  background-color: #00A400 !important;
+  border: 1px solid #005500 !important;
+}
+
+button:hover {
+    -webkit-box-shadow: 0px 0px 1px 1px #006900 !important;
+    -moz-box-shadow: 0px 0px 1px 1px #006900 !important;
+    box-shadow: 0px 0px 1px 1px #006900 !important;
+
+}
+
+#about-us a:hover{
+  color:#004100 !important;
+
+}
+
+#log-in-button {
+  background-color: #CCCC00 !important;
+  border: 1px solid #005500 !important;
+  color: #3B7700 !important;
+}
+.navbar-fixed-top{
+    
+    /*margin-top: 4px;*/
+}
+
+.navbar-default {
+    background-color: #009000 !important;
+    background-image: none;
+    background-repeat: no-repeat;
+    border-color: #005500;
+}
+
+.navbar {
+    /*-webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;*/
+    -webkit-box-shadow: -4px 0px 3px 2px #999;
+    -moz-box-shadow: -4px 0px 3px 2px #999;
+    box-shadow: -4px 0px 3px 2px #999;
+}
+
+
+
+.navbar-brand {
+    margin-top: 8px;
+    /*make margin-top =0px for the size of hanging low navbar*/
+}
+
+.navbar button:hover {
+    -webkit-box-shadow: 0px 0px 1px 1px #004100 !important;
+    -moz-box-shadow: 0px 0px 1px 1px #004100 !important;
+    box-shadow: 0px 0px 1px 1px #004100 !important;
+}
+
+
+.tars-logo {
+    margin-top: -24px; 
+    margin-left:36px;
+}
+
+.navbar .container-fluid {
+    margin-right: 3%;
+}
+.nav.navbar-nav li > * {
+
+    color: white !important;
+    font-size: 16px;
+    text-shadow: none;
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+.nav.navbar-nav li button {
+  margin-top: 8px;
+  background-color: #0029A4;
+}
+/* --- ends navbar --- */
+
+.jumbotron {
+    min-height: 700px;
+    margin-bottom: 0px;
+    padding-right: 17px; /*fixes right overflow navbar bug*/
+    width:100%;
+    /*background-color: #FFFF00 !important;*/
+    background: -webkit-linear-gradient(#FFFF00, #999900); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FFFF00, #999900); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FFFF00, #999900); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FFFF00, #999900); /* Standard syntax */
+}
+
+.center-x{ 
+    margin: 0 auto;
+    text-align: center;
+    /*width: 90%;*/
+}
+
+.page-title {
+    margin-top: 72px;
+    margin-bottom: 48px;
+    text-align: center;
+}
+
+.mid-page-title {
+    margin-top: 36px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.jumbotron.home .container {
+    margin-top: 172px;
+
+    /*border: 1px solid red;*/
+}
+
+.jumbotron.home .container .row h1,p {
+    text-align: center;
+}
+
+
+.map-container * {
+  display: block;
+
+}
+
+#map {
+  margin-top: 10%;
+  display: block;
+}
+
+#refresh-button {
+  margin-left: auto !important;
+  margin-right: auto;
+  margin-top: 12px;
+  display: block;
+
+}
+
+
+.jumbotron.main .options-side-bar > *  {
+  display: block !important; 
+  margin-top: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  margin-right: auto; 
+  margin-left: auto;
+
+}
+
+#settings {
+  background-image: url('settings_logo.png');
+  /*background-image: url('/assets/images/settings_logo.png');*/
+  background-size: contain;
+  min-height: 48px;
+  min-width: 48px;
+  max-height: 48px;
+  max-width: 48px;
+  margin-bottom: 96px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+
+
+
+
+
+
+/* --- ends home page --- */
+.footer {
+    display: block;
+    position:absolute;
+    bottom: 0px;
+    background-color: #0099FF; 
+    width: 100%;
+}
+
+
+html, body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+#wrapper {
+   min-height:100%;
+   position:relative;
+   width:100%;
+}
+#header {
+   background:#0099FF;
+   padding:0px;
+   width:100%;
+}
+#content {
+   width:100%;
+   padding:0px;
+   padding-top: 17px;
+   padding-bottom:124px;   /* Height of the footer */
+}
+#footer {
+   position:absolute;
+   bottom:0;
+   padding-top: 24px;
+   width:100%;
+   height:124px;   /* Height of the footer */
+   background:#0099FF;
+   -webkit-box-shadow: -4px 0px 3px 2px #999;
+    -moz-box-shadow: -4px 0px 3px 2px #999;
+    box-shadow: -4px 0px 3px 2px #999;
+    /*-webkit-box-shadow: 0 8px 6px -6px #999, inset 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999, inset 0 8px 6px -6px #999;
+    box-shadow: 5px 8px 6px -6px #999, inset 0 8px 6px -6px #999;*/
+}
+
+/*
+.header {
+   position:absolute;
+   top:0;
+   padding-top: 24px;
+   width:100%;
+   height:124px;    // Height of the footer
+   background:#0099FF;
+   -webkit-box-shadow: -4px 0px 3px 2px #999;
+    -moz-box-shadow: -4px 0px 3px 2px #999;
+    box-shadow: -4px 0px 3px 2px #999;
+    /*-webkit-box-shadow: 0 8px 6px -6px #999, inset 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999, inset 0 8px 6px -6px #999;
+    box-shadow: 5px 8px 6px -6px #999, inset 0 8px 6px -6px #999;
+}
+*/
+
+.social-media {
+    padding-left: 16%;
+
+}
+
+.social-media i {
+    margin-left: 12px;
+}
+
+.social-media .sm-container {
+    margin-right: 4%;
+}
+
+
+
+
+
+
+
+

@@ -1,14 +1,21 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>InsTrail</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <% stylesheet_link_tag "/stylesheets/landing.css" %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<div>
+		<p>aaaaaa</p>
+	</div>
 
-<%= yield %>
+	<%= yield %>
+
+
 
 </body>
 </html>
