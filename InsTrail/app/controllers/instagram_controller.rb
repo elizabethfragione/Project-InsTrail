@@ -64,7 +64,9 @@ class InstagramController < ApplicationController
       else
         count = count + 1
         lat_lon = Geocoder.coordinates(name)
-        if !lat_lon.nil?
+        if !lat_lon.nil? && 48.931235 <= lat_lon[0] && lat_lon[0] <= 50.811827 && -128.530631 <= lat_lon[1] && lat_lon[1] <= -122.235670
+      
+          
           @trail = Trail.new(name, lat_lon, count)
           @@list_of_trails << @trail
           puts @trail.get_name()
