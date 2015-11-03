@@ -9,6 +9,8 @@
 button {
   background-color: #00A400 !important;
   border: 1px solid #005500 !important;
+  width: 100%;
+  height: 72px;
 }
 
 button:hover {
@@ -27,6 +29,7 @@ button:hover {
   background-color: #CCCC00 !important;
   border: 1px solid #005500 !important;
   color: #3B7700 !important;
+  height: 36px;
 }
 .navbar-fixed-top{
     
@@ -64,7 +67,7 @@ button:hover {
 
 
 .tars-logo {
-    margin-top: -24px; 
+    margin-top: 4px; 
     margin-left:36px;
 }
 
@@ -133,7 +136,7 @@ button:hover {
 }
 
 #map {
-  margin-top: 10%;
+  margin-top: 2%;
   display: block;
 }
 
@@ -141,6 +144,7 @@ button:hover {
   margin-left: auto !important;
   margin-right: auto !important;
   margin-top: 12px;
+  width: 256px;
   /*display: block;*/
 
 }
@@ -163,14 +167,14 @@ button:hover {
 }
 
 #settings {
-  background-image: url('settings_logo.png');
+  /*background-image: url('settings_logo.png');*/
   /*background-image: url('/assets/images/settings_logo.png');*/
-  background-size: contain;
+  /*background-size: contain;*/
   min-height: 48px;
   min-width: 48px;
   max-height: 48px;
   max-width: 48px;
-  margin-bottom: 96px;
+  margin-bottom: 72px;
   margin-right: auto;
   margin-left: auto;
 }

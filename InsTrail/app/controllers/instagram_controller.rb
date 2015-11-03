@@ -1,22 +1,49 @@
 class InstagramController < ApplicationController
   @@TAG = "vancouvertrails"
   @image_data = Array.new
-  @@API_CALLS = 20
+  #@@API_CALLS = 20
+  @@API_CALLS = 1
   @@trail_names = Hash.new(0)
   @@list_of_trails = Array.new
   
   def index
+    
+    # returns to home page through the back-button of the browser should not make new instagram calls
+    #if !initial_landing?
+    #  return_home
+    #  return
+    #end
+    update_recent_trail_info()
+    
+  end
+
+  #calls instagram, updates trails
+  def update_recent_trail_info
     instagram_api_call()
+    @last_time_updated = Time.now
     countNames()
     createTrail
     addPinsToMap()
+  end
 
+
+  # called from the home button
+  def return_home
+    addPinsToMap()
+    render :index
+  end
+
+  # called from refresh button
+  def refresh_map
+    update_recent_trail_info
+    render :index
+  end
+
+  def initial_landing?
+    @@list_of_trails.empty?
   end
 
   def addPinsToMap()
-    #map functionality
-    #@test_trail = Trail.new(49.2827, -123.1139268)
-    #@trails = [@test_trail] 
     @hash = Gmaps4rails.build_markers(@@list_of_trails) do |trail, marker|
       if !trail.nil?
         if !trail.get_latlon.nil?
@@ -42,8 +69,6 @@ class InstagramController < ApplicationController
       end
     end
   end
-
-
 
   
   def countNames()

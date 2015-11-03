@@ -22,15 +22,19 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
-                  <img class="tars-logo pull-left" src="http://steamworks.com/sites/default/files/logo.png" alt="Home" width="96px" height="96px"></a>
+                
+                <%= link_to(image_tag(
+                image_path("instrail_logo4.png"), class: "tars-logo pull-left", width:"154",height:"46", alt:"Home"), "/index") %>
+                
+                <!--<%= link_to(image_tag(
+                "http://steamworks.com/sites/default/files/logo.png", class: "tars-logo pull-left", size: "76", alt:"Home"), root_path) %>-->
 
               </div>
               
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav navbar-right">
-                    <li id="about-us"><a id="about-us" href="#about-us">About Us</a></li>
+                    <li id="about-us"><%= link_to "About", controller: "about" %></li>
                     <li><button type="button" class="btn btn-primary" id="log-in-button">Log In</button></li>
                   </ul>
                 </div>
@@ -42,36 +46,46 @@
         	<div id="main">
             <div class="jumbotron main">
                 <div class="row">
-                  <div class="map-container col-md-8">
+                  <div class="map-container col-md-10">
+
                     <!--<div style='width: 800px;'>-->
+                    <!--<div class="row" style='min-width: 400px;'>
+
+                      <div id="map" class="pull-right col-10-md" style='width: 700px; height: 400px;'>
+                      </div>
+
+                    </div>-->
+                    
                     <div class="row" style='min-width: 400px;'>
-                      <div id="map" class="pull-right" style='width: 700px; height: 400px;'>
+
+                      <div id="map" class="pull-right" style='width: 1000px; height: 512px;'>
                       </div>
 
                     </div>
+
                     <div id="refresh-button-container" max-width="96px" max-height="48px">
-                      <%= link_to "Refresh Map", { :controller => "instagram", :action => 'index'}, 
+                      <%= link_to "Refresh Map", { :controller => "instagram", :action => 'refresh_map'}, 
                         {:class => 'btn btn-primary', :id => 'refresh-button',
-                        :style => 'background-color:#00A400;color:white'}  %>
+                        :style => 'background-color:#00A400;color:white; border: 1px solid #005500'}  %>
                     </div>
                     
 
-                    <%= button_to "Refresh Map", { :controller => "instagram", :action => 'index', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
-                    <%= link_to "Refresh Map", { :controller => "instagram", :action => 'index', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
+                    <%= button_to "Refresh Map", { :controller => "instagram", :action => 'refresh_map', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
+                    <%= link_to "Refresh Map", { :controller => "instagram", :action => 'refresh_map', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
 
                     <!--<div class="row refresh-row">
                       <button id="refresh-button" type="button" class="btn btn-primary" >Refresh Map</button>
                     </div>-->
                   </div>
-                  <div class="col-md-1 options-side-bar">
-                    <a href="#"><div id="settings" height="48px" width="48px"></div></a>
+                  <div class="col-md-2 options-side-bar">
+                    <%= link_to(image_tag(image_path("settings_logo.png"), id:"settings", size:"48", alt:"Settings"), "/settings") %>
                     <!--<img src"./images/settings_logo.png" alt="Settings" height="24px" width="24px">-->
                     <button type="button" class="btn btn-primary">Top 10</button>
                     <button type="button" class="btn btn-primary">Low 10</button>
                     <button type="button" class="btn btn-primary">History</button>
                     <button type="button" class="btn btn-primary">Clear Filters</button>
                   </div>
-                  <div class="col-md-3"></div>
+                  <!--<div class="col-md-3"></div>-->
                 </div>
             <!-- ends jumbotron main -->
             </div>
@@ -117,10 +131,3 @@
 		});
 
 </script>
-
-
-
-</html>
-<% @image_data.each do |image| %>
-<%= image_tag image.images.standard_resolution.url %>
-<% end %>
