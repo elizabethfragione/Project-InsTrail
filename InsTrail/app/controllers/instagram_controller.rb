@@ -1,8 +1,7 @@
 class InstagramController < ApplicationController
   @@TAG = "vancouvertrails"
   @image_data = Array.new
-  #@@API_CALLS = 20
-  @@API_CALLS = 1
+  @@API_CALLS = 20
   @@trail_names = Hash.new(0)
   @@list_of_trails = Array.new
   
