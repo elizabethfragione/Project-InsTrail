@@ -41,6 +41,9 @@ gem 'gmaps4rails'
 # underscore; required for gmaps
 gem 'underscore-rails'
 
+# For Heroku
+gem 'rails_12factor', group: :production
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
