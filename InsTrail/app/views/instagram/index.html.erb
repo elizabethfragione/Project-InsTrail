@@ -58,24 +58,15 @@
                     
                     <div class="row" style='min-width: 400px;'>
 
-                      <div id="map" class="pull-right" style='width: 1000px; height: 512px;'>
+                      <div id="map" style='min-width: 400px; height: 512px;'>
                       </div>
 
                     </div>
 
-                    <div id="refresh-button-container" max-width="96px" max-height="48px">
-                      <%= link_to "Refresh Map", { :controller => "instagram", :action => 'refresh_map'}, 
-                        {:class => 'btn btn-primary', :id => 'refresh-button',
-                        :style => 'background-color:#00A400;color:white; border: 1px solid #005500'}  %>
-                    </div>
-                    
-
-                    <%= button_to "Refresh Map", { :controller => "instagram", :action => 'refresh_map', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
-                    <%= link_to "Refresh Map", { :controller => "instagram", :action => 'refresh_map', class: 'btn btn-primary', id:'refresh-button'}, :method => :get  %>
-
-                    <!--<div class="row refresh-row">
-                      <button id="refresh-button" type="button" class="btn btn-primary" >Refresh Map</button>
+                    <!--<div id="refresh-button-container" max-width="96px" max-height="48px">
+                      <%= button_to "Refresh Map", {:action => 'refresh_map',}, {:class => 'btn btn-primary',:id => 'refresh-button',:style => 'background-color:#00A400;color:white; border: 1px solid #005500'} %>
                     </div>-->
+                    
                   </div>
                   <div class="col-md-2 options-side-bar">
                     <%= link_to(image_tag(image_path("settings_logo.png"), id:"settings", size:"48", alt:"Settings"), "/settings") %>
@@ -84,6 +75,16 @@
                     <button type="button" class="btn btn-primary">Low 10</button>
                     <button type="button" class="btn btn-primary">History</button>
                     <button type="button" class="btn btn-primary">Clear Filters</button>
+                  </div>
+                  <div class="col-md-10 row">
+
+                    <div id="refresh-button-container" max-width="96px" max-height="48px">
+                      
+                      <div id="refresh-button-outer">
+                        <%= button_to "Refresh Map", {:action => 'refresh_map',}, {:class => 'btn btn-primary',:id => 'refresh-button',:style => 'background-color:#00A400;color:white; border: 1px solid #005500'} %>
+                      </div>
+                    </div>
+                    
                   </div>
                   <!--<div class="col-md-3"></div>-->
                 </div>

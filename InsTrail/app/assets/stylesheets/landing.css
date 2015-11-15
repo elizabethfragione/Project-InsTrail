@@ -94,11 +94,11 @@ button:hover {
     margin-bottom: 0px;
     padding-right: 17px; /*fixes right overflow navbar bug*/
     width:100%;
-    /*background-color: #FFFF00 !important;*/
-    background: -webkit-linear-gradient(#FFFF00, #999900); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#FFFF00, #999900); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#FFFF00, #999900); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#FFFF00, #999900); /* Standard syntax */
+    background-color: #f2f2f2 !important;
+    /*background: -webkit-linear-gradient(#FFFF00, #999900);*/ /* For Safari 5.1 to 6.0 */
+    /*background: -o-linear-gradient(#FFFF00, #999900);/* /* For Opera 11.1 to 12.0 */
+    /*background: -moz-linear-gradient(#FFFF00, #999900);/* /* For Firefox 3.6 to 15 */
+    /*background: linear-gradient(#FFFF00, #999900);/* /* Standard syntax */
 }
 
 .center-x{ 
@@ -137,22 +137,39 @@ button:hover {
 
 #map {
   margin-top: 2%;
+  width:100%;
   display: block;
+  margin-left: auto !important;
+  margin-right: auto !important;
+
 }
 
 #refresh-button {
   margin-left: auto !important;
   margin-right: auto !important;
-  margin-top: 12px;
+  text-align: center;
+  margin-top: 24px;
   width: 256px;
   /*display: block;*/
 
 }
 
+#refresh-button-outer {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+}
+
 #refresh-button-container {
-  margin-left: 448px;
+  margin-left: auto !important;
   margin-right: auto !important;
   display: block;
+  width: 100%;
+}
+
+#refresh-row {
+  display: block;
+  width:100%;
 }
 
 
