@@ -3,11 +3,12 @@ Rails.application.routes.draw do
   get 'settings/index'
 
   root 'instagram#index'
-  #get "/index" => "instagram#return_home"
-  #post "/refresh_map" => "instagram#refresh_map"
+  get "/index" => "instagram#index"
   post "/" => "instagram#refresh_map"
   get "/about" => "about#index"
   get "/settings" => "settings#index"
+  # post "/refresh_map" => "instagram#refresh_map"
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,10 +1,10 @@
 class InstagramController < ApplicationController
-  @@TAG = "vancouvertrails"
+  TAG = "vancouvertrails"
   @image_data = Array.new
-  @@API_CALLS = 0
-  @@trail_names = Hash.new(0)
-  @@list_of_trails = Array.new
+  @@API_CALLS = 10
   
+  #controller methods to render 
+  #need to refactor so that the API calls are in separate models 
   def index
     
     # returns to home page through the back-button of the browser should not make new instagram calls
@@ -18,6 +18,8 @@ class InstagramController < ApplicationController
 
   #calls instagram, updates trails
   def update_recent_trail_info
+    @trail_names = Hash.new(0) 
+    @list_of_trails = Array.new 
     instagram_api_call()
     @last_time_updated = Time.now
     countNames()
@@ -39,11 +41,11 @@ class InstagramController < ApplicationController
   end
 
   def initial_landing?
-    @@list_of_trails.empty?
+    @list_of_trails.empty?
   end
 
   def addPinsToMap()
-    @hash = Gmaps4rails.build_markers(@@list_of_trails) do |trail, marker|
+    @hash = Gmaps4rails.build_markers(@list_of_trails) do |trail, marker|
       if !trail.nil?
         if !trail.get_latlon.nil?
 
@@ -73,46 +75,46 @@ class InstagramController < ApplicationController
   def countNames()
     @image_data.each do |image|
       name = image.location.name
-      @@trail_names[name] += 1
+      @trail_names[name] += 1
     end    
-    #puts @@trail_names
+    puts @trail_names #test to see if double-counting occurs here: it does 
   end
 
   def createTrail
     itr = 0
-    @@trail_names.each do |name, count|
+    @trail_names.each do |name, count|
       t = Time.now
       if (itr == 10) 
         itr = 0
         puts "Have to time out"
-        sleep (t + 2 - Time.now)
+        sleep (t + 1.5 - Time.now)
       else
         itr += 1
         puts itr
         lat_lon = Geocoder.coordinates(name)
         if !lat_lon.nil? && 48.931235 <= lat_lon[0] && lat_lon[0] <= 50.811827 && -128.530631 <= lat_lon[1] && lat_lon[1] <= -122.235670
           @trail = Trail.new(name, lat_lon, count)
-          @@list_of_trails << @trail
+          @list_of_trails << @trail
           puts @trail.get_name()
         end
       end
     end
   end
   
-  
+  # need to move this else where 
   def instagram_api_call()
     # initial tag_recent_media
-    @image_data = Instagram.tag_recent_media(@@TAG, {})
+    @image_data = Instagram.tag_recent_media(TAG, {})
     next_max_id = @image_data.pagination.next_max_tag_id
     @image_data = filter_by_location(@image_data)
     
     # number of API calls for tag recent media
-    @image_data = get_tag_recent_media(@@TAG, @image_data,next_max_id)
-    perc_null_location = perc_null_location(@image_data)
+    @image_data = get_tag_recent_media(TAG, @image_data,next_max_id)
+    #perc_null_location = perc_null_location(@image_data)
     
     
   end
-  
+  # need to move this else where 
   def get_tag_recent_media(tag, image_data, next_max_id)
     iter = 0
     num_images = 0
@@ -141,16 +143,17 @@ class InstagramController < ApplicationController
     return tag_media
   end
   
-  def perc_null_location(image_data)
-    location_null_count = 0
-    image_data.each do |image|
-      if image.location.nil?
-        location_null_count = location_null_count + 1
-      end
-    end
-    perc_null_location = location_null_count.to_f / image_data.length
-    print "% of NULL image locations: "
-    puts perc_null_location
-    return perc_null_location
-  end
+  # Test the percentage of photos with no associated location
+  # def perc_null_location(image_data)
+  #   location_null_count = 0
+  #   image_data.each do |image|
+  #     if image.location.nil?
+  #       location_null_count = location_null_count + 1
+  #     end
+  #   end
+  #   perc_null_location = location_null_count.to_f / image_data.length
+  #   print "% of NULL image locations: "
+  #   puts perc_null_location
+  #   return perc_null_location
+  # end
 end
