@@ -34,8 +34,15 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav navbar-right">
-                    <li id="about-us"><%= link_to "About", controller: "about" %></li>
-                    <li><button type="button" class="btn btn-primary" id="log-in-button">Log In</button></li>
+                     <li id="" style="color:white; margin-top: 12px;"><%= link_to "About", controller: "about" %></li>
+                    <% if current_user %>
+                      <li><%= image_tag current_user.image_url, size: '48x48', style: 'margin-top:8px;' %></li>
+                      <li class="" style="color:white; margin-top: 26px; font-size:16px"><%= current_user.nickname %></li>
+                      <li class="" style="color:white; margin-top: 12px;"><%= link_to 'Log Out', logout_path, method: :delete %></li>
+                    <% else %>                    
+                      <li class="" style="color:white; margin-top: 12px;"><%= link_to 'Log In via Instagram', '/auth/instagram' %></li>
+                  <% end %>
+
                   </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -45,6 +52,12 @@
 
         	<div id="main">
             <div class="jumbotron main">
+
+                <ul> 
+                  <% flash.each do |key, msg| %>
+                  <%= content_tag :li, msg, id: key %>
+                  <% end %>
+                </ul>
                 <div class="row">
                   <div class="map-container col-md-10">
 
@@ -73,7 +86,8 @@
                     <!--<img src"./images/settings_logo.png" alt="Settings" height="24px" width="24px">-->
                     <button type="button" class="btn btn-primary">Top 10</button>
                     <button type="button" class="btn btn-primary">Low 10</button>
-                    <button type="button" class="btn btn-primary">History</button>
+                    <%= button_to "History", {:action => 'user_history',}, {:class => 'btn btn-primary',:id => 'history-button',:style => 'background-color:#00A400;color:white; border: 1px solid #005500'} %>
+
                     <button type="button" class="btn btn-primary">Clear Filters</button>
                   </div>
                   <div class="col-md-10 row">
