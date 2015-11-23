@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   
   get "/index" => "map#index"
   get "/refresh_map" => "map#refresh_map"
-  post "/" => "map#refresh_map"
+  post "/refresh_map" => "map#refresh_map"
   post "/user_history" => "map#user_history"
   get "/user_history" => "map#user_history"
   get "/about" => "about#index"

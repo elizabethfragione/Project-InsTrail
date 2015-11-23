@@ -1,12 +1,14 @@
 class MapController < ApplicationController
   @@map = nil
   def index
+    params = {}
     if current_user
-      @map = Map.create({:authenticated => true, :kind => "default"})
+      @map = Map.create(true, "default")
     else
-      @map = Map.create({:authenticated => false, :kind => "default"})
+      @map = Map.create(false, "default")
     end
     @@map = @map
+    #@map.create_trails
     addPinsToMap(Trail.where(user: false))
   end
   
@@ -53,29 +55,26 @@ class MapController < ApplicationController
   end
   
   def addPinsToMap(trails)
-      @hash = Gmaps4rails.build_markers(trails) do |trail, marker|
-        if !trail.nil?
-          if !trail.lat.nil? && !trail.lon.nil?
-            puts "_____________________________________________"
-            marker.lat trail.lat
-            puts "lat: " + trail.lat.to_s
-            marker.lng trail.lon
-            puts "lon: " + trail.lon.to_s
-            marker.infowindow trail.name
+    @hash = Gmaps4rails.build_markers(trails) do |trail, marker|
+      if !trail.nil?
+        if !trail.lat.nil? && !trail.lon.nil?
+          puts "_____________________________________________"
+          marker.lat trail.lat
+          puts "lat: " + trail.lat.to_s
+          marker.lng trail.lon
+          puts "lon: " + trail.lon.to_s
+          marker.infowindow trail.name
 
-            count_str = trail.count.to_s
-            url_for_marker = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + count_str +'|FF0000|000000'
-          
-            marker.picture({
-                        :url => url_for_marker,
-                        :width  => 36,
-                        :height => 36
-                       })
-          end
+          count_str = trail.count.to_s
+          url_for_marker = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + count_str +'|FF0000|000000'
+        
+          marker.picture({
+                      :url => url_for_marker,
+                      :width  => 36,
+                      :height => 36
+                     })
         end
       end
     end
   end
-  
-  
 end

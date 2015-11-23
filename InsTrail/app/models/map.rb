@@ -1,10 +1,12 @@
 class Map < ActiveRecord::Base
   has_many :trails
   #might need to use after initialize
-  def initialize (params = {})
+  
+  def initialize (authenticated, kind)
     super
-    @authenticated = params.fetch(:authenticated)
-    @kind = params.fetch(:kind)
+    @authenticated = authenticated
+    @kind = kind
+
     @data = call_instagram
     @data_with_location = find_data_with_location(@data)
     trail_data = find_trail_and_counts(@data_with_location)
@@ -23,7 +25,7 @@ class Map < ActiveRecord::Base
         user_trail_data = find_trail_and_counts(@user_data)
         @user_trails = create_trails(user_trail_data, @authenticated)
     end
-    
+    # MOVE TRAIL CREATIIONG into MapController
     @trails = create_trails(trail_data, @authenticated)
     return self
   end
@@ -70,41 +72,52 @@ class Map < ActiveRecord::Base
   end
   
   def create_trails(trail_data, authenticated)
-      itr = 0
-      trail_data.each do |trail_name, photo_count|
-        t = Time.now
-        if (itr == 10) 
-          itr = 0
-          puts "Have to time out"
-          sleep (t + 1.5 - Time.now)
-        else
-          itr += 1
-          puts itr
-          lat_lon = Geocoder.coordinates(trail_name)
-          if !lat_lon.nil? && in_vancouver(lat_lon)
+    itr = 0
+    trail_data.each do |trail_name, photo_count|
+      t = Time.now
+      if (itr == 10) 
+        itr = 0
+        puts "Have to time out"
+        sleep (t + 1.5 - Time.now)
+      else
+        itr += 1
+        puts itr
+        lat_lon = Geocoder.coordinates(trail_name)
+        if !lat_lon.nil? && in_vancouver(lat_lon)
+          puts "************************* TRAIL NAME ******************"
+          puts trail_name
+          begin
             @trail = self.trails.create(:name => trail_name, :user => authenticated, :lat => lat_lon[0], :lon => lat_lon[1], :count => photo_count)
-            create_photos(@trail)
+          rescue
+            @trail = Trail.where(name: trail_name)
           end
+          create_photos(@trail)
         end
       end
-      return @trails
     end
+    return @trails
   end
     
   def create_photos(trail)
     trail_name = @trail.name
     photos_hash = Array.new
     photos = Array.new
-    @image_data.each do |img|
+    @data_with_location.each do |img|
       if trail_name == img.location.name
         photos_hash << img
       end 
-      photos_hash.each do |img|
-        location = img.location
-        low_resolution_url = img.images.low_resolution.url
-        thumbnail_url = img.images.thumbnail.url
-        standard_resolution_url = img.images.standard_resolution.url
-        @photo = trail.photos.create(:trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
+    end
+    photos_hash.each do |img|
+      location = img.location
+      puts location
+      low_resolution_url = img.images.low_resolution.url
+      thumbnail_url = img.images.thumbnail.url
+      standard_resolution_url = img.images.standard_resolution.url
+      pid = img.images.id
+      begin
+        @photo = trail.photos.create(:pid => pid, :trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
+      rescue
+        @photo = Photo.where(pid: pid)
       end
     end
   end
