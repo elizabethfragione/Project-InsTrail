@@ -1,59 +1,108 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>InsTrail</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <% stylesheet_link_tag "/stylesheets/landing.css" %>
-  <% stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"  %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-	    <div id="wrapper">  
-	      <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid" id="nav-outer">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
+	<head>
+		<title>InsTrail</title>
+		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+		<% stylesheet_link_tag "/stylesheets/landing.css" %>
+		<% stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"  %>
+		<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+		<%= csrf_meta_tags %>
+		<script src="javascripts/settings.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="container-fluid" id="nav-outer">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
 
-                <%= link_to(image_tag(
-                image_path("instrail_logo4.png"), class: "tars-logo pull-left", width:"154",height:"46", alt:"Home"), "/index") %>
-                
-                <!--<%= link_to(image_tag(
-                "http://steamworks.com/sites/default/files/logo.png", class: "tars-logo pull-left", size: "76", alt:"Home"), root_path) %>-->
-              </div>
-              
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                  <ul class="nav navbar-nav navbar-right">
-                    <!--<li id="about-us"><a id="about-us" href="#about-us">About Us</a></li>-->
-                    <li id="about-us"><%= link_to "About", controller: "about" %></li>
-                    <li><button type="button" class="btn btn-primary" id="log-in-button">Log In</button></li>
-                  </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-              
-            </div>
-          </nav>
+						<%= link_to(image_tag(
+						image_path("instrail_logo4.png"), class: "tars-logo pull-left", width:"154",height:"46", alt:"Home"), "/index") %>
 
-        	<div id="main">
-            <div class="jumbotron main">
-            	<h1>Settings</h1>
-            <!-- ends jumbotron main -->
-            </div>
-          <!-- ends div main -->
-          </div>
+						<!--<%= link_to(image_tag(
+						"http://steamworks.com/sites/default/files/logo.png", class: "tars-logo pull-left", size: "76", alt:"Home"), root_path) %>-->
+					</div>
 
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav navbar-right">
+							<!--<li id="about-us"><a id="about-us" href="#about-us">About Us</a></li>-->
+							<li id="about-us">
+								<%= link_to "About", controller: "about" %>
+							</li>
+							<li>
+								<button type="button" class="btn btn-primary" id="log-in-button">
+									Log In
+								</button>
+							</li>
+						</ul>
+					</div>
+					<!-- /.navbar-collapse -->
 
-        	<%= yield %>
+				</div>
+			</nav>
 
-        <!-- ends wrapper -->
-        </div>
+			<div id="main">
+				<div class="jumbotron main">
+					<h1>Settings</h1>
 
+					<form oninput="popularity.value = psetting.valueAsNumber">
+						<label for="setting">Popularity Setting</label>
+						<input type="range"
+						name="psetting"
+						id="setting"
+						min="0"
+						max="100"
+						value="0"
+						step="10">
 
+						<br>
 
-</body>
+						<table>
+							<tr>
+								<td>At least&nbsp;&nbsp;</td>
+								<td text-align="center">
+								<output for="setting"
+								id="popularity">
+									0
+								</output></td>
+								<td>&nbsp;&nbsp;photos</td>
+							</tr>
+						</table>
+
+						<br>
+
+						<input type="submit" onclick="setSettings()">
+
+						<script>
+							function setSettings() {
+								var x = document.getElementById("popularity");
+							}
+						</script>
+
+					</form>
+
+					<%= form_for(@popularity) do |f| %>
+					<div>
+						<%= f.label :number %>
+					</div>
+					<div class="actions">
+						<%= f.submit "create" %>
+						<%= end %>
+
+						<!-- ends jumbotron main -->
+					</div>
+					<!-- ends div main -->
+				</div>
+
+				<%= yield %>
+
+				<!-- ends wrapper -->
+			</div>
+
+	</body>

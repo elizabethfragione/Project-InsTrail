@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post "/" => "instagram#refresh_map"
   get "/about" => "about#index"
   get "/settings" => "settings#index"
+  post "/settings/" => "settings#set_settings"
   # post "/refresh_map" => "instagram#refresh_map"
   
   # The priority is based upon order of creation: first created -> highest priority.
