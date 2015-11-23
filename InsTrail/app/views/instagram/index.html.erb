@@ -77,7 +77,7 @@
                     </div>
 
                     <!--<div id="refresh-button-container" max-width="96px" max-height="48px">
-                      <%= button_to "Refresh Map", {:action => 'refresh_map',}, {:class => 'btn btn-primary',:id => 'refresh-button',:style => 'background-color:#00A400;color:white; border: 1px solid #005500'} %>
+                      <%= button_to "Refresh Map", { :action => 'refresh_map',}, {:class => 'btn btn-primary',:id => 'refresh-button',:style => 'background-color:#00A400;color:white; border: 1px solid #005500'} %>
                     </div>-->
                     
                   </div>
@@ -146,3 +146,6 @@
 		});
 
 </script>
+
+<%= if !@user_data.nil? then @user_data.each do |media_item| 
+  puts media_item.images.thumbnail.url end end%>

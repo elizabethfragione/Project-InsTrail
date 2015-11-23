@@ -18,11 +18,13 @@ class InstagramController < ApplicationController
 
   def user_history
     puts 'HISTORY CALLED'
-
+    @trail_names = Hash.new(0) 
+    @list_of_trails = Array.new 
     instagram_api_user_call
-
-    addPinsToMap()
-    render :index
+    @last_time_updated = Time.now
+    countNames(@user_data)
+    createTrail
+    addPinsToMap
   end
 
   #calls instagram, updates trails
@@ -31,7 +33,7 @@ class InstagramController < ApplicationController
     @list_of_trails = Array.new 
     instagram_api_call()
     @last_time_updated = Time.now
-    countNames()
+    countNames(@image_data)
     createTrail
     addPinsToMap()
   end
@@ -82,9 +84,15 @@ class InstagramController < ApplicationController
   end
 
   
-  def countNames()
-    @image_data.each do |image|
+  def countNames(image_data)
+    image_data.each do |image|
       name = image.location.name
+      if name.nil?
+        puts 'NAME NIL!'
+      end
+      if @trail_names.nil?
+        puts 'TRAIL NAMES NIL!'
+      end
       @trail_names[name] += 1
     end    
     puts @trail_names #test to see if double-counting occurs here: it does 
@@ -117,6 +125,7 @@ class InstagramController < ApplicationController
     @image_data = Instagram.tag_recent_media(TAG, {})
     next_max_id = @image_data.pagination.next_max_tag_id
     @image_data = filter_by_location(@image_data)
+    #puts @image_data
     
     # number of API calls for tag recent media
     @image_data = get_tag_recent_media(TAG, @image_data,next_max_id)
@@ -126,15 +135,28 @@ class InstagramController < ApplicationController
   end
 
   def instagram_api_user_call()
-    #client = Instagram.client(:access_token => session[:access_token])
-    #@image_data = Instagram.client.user_recent_media
+    client = Instagram.client(:access_token => session[:access_token])
+    puts 'ACCESS TOKEN IS'
+    puts session[:access_token]
+    @user_data = client.user_recent_media
     #puts 'USER CALL'
-    #@image_data.each do |image|
-    #  puts image.text
+    #@user_data.each do |media_item|
+    #  puts media_item.images.thumbnail.url
+    #end
+    next_max_id = @user_data.pagination.next_max_id
+    @user_data = filter_by_location(@user_data)
+    countNames(@user_data)
+    createTrail
+    addPinsToMap()
+    render :index
+
+
     #end
     #next_max_id = @image_data.pagination.next_max_tag_id
 
   end
+
+
   
   # need to move this else where 
   def get_tag_recent_media(tag, image_data, next_max_id)
