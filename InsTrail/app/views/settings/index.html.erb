@@ -51,7 +51,46 @@
 				<div class="jumbotron main">
 					<h1>Settings</h1>
 
-					<form oninput="popularity.value = psetting.valueAsNumber">
+					<% flash.each do |key, msg| %>
+	                  <%= content_tag :p, msg, id: key %>
+	                <% end %>
+
+					<br>
+					<br>
+
+					<h4><strong>Popularity Setting</strong></h4>
+					<br>
+					<h5>Assign a value to your popularity setting by moving the slider.</h5>
+
+
+					<br>
+					<br>
+
+					<%= form_for (@setting) do |f| %>  
+					    <div class="field"> 
+					      <%= f.range_field :number, :min=>0, :max=>50, step:1, :value=>0 %> <br> 
+					    </div> 
+					    <div class="actions"> 
+					      <%= f.submit "Submit" %> 
+					    </div>   
+					<% end %>
+
+
+
+
+
+
+
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <p>Old Submit Form To Be Deleted</p>
+						<form oninput="popularity.value = psetting.valueAsNumber">
 						<label for="setting">Popularity Setting</label>
 						<input type="range"
 						name="psetting"
@@ -65,13 +104,13 @@
 
 						<table>
 							<tr>
-								<td class="words">At least&nbsp;&nbsp;</td>
-								<td class="output">
+								<td>At least&nbsp;&nbsp;</td>
+								<td text-align="center">
 								<output for="setting"
 								id="popularity">
 									0
 								</output></td>
-								<td class="words">&nbsp;&nbsp;photos</td>
+								<td>&nbsp;&nbsp;photos</td>
 							</tr>
 						</table>
 
@@ -86,8 +125,6 @@
 						</script>
 
 					</form>
-
-					
 
 						<!-- ends jumbotron main -->
 					</div>
