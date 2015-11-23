@@ -1,16 +1,13 @@
 class InstagramController < ApplicationController
   TAG = "vancouvertrails"
   @image_data = Array.new
-<<<<<<< HEAD
   @@API_CALLS = 0
   
   #controller methods to render 
   #need to refactor so that the API calls are in separate models 
-=======
   @@API_CALLS = 1
   #controller methods to render
   #need to refactor so that the API calls are in separate models
->>>>>>> origin/master
   def index
 
     # returns to home page through the back-button of the browser should not make new instagram calls
@@ -115,11 +112,7 @@ class InstagramController < ApplicationController
   
   def countNames(image_data)
     image_data.each do |image|
-
-  def countNames()
-    @image_data.each do |image|
-
-      name = image.location.name
+       name = image.location.name
       if name.nil?
         puts 'NAME NIL!'
       end
@@ -130,6 +123,21 @@ class InstagramController < ApplicationController
     end
     puts @trail_names #test to see if double-counting occurs here: it does
   end
+
+  #def countNames()
+  #  @image_data.each do |image|
+
+  #    name = image.location.name
+  #    if name.nil?
+  #      puts 'NAME NIL!'
+  #    end
+  #    if @trail_names.nil?
+  #      puts 'TRAIL NAMES NIL!'
+  #    end
+  #    @trail_names[name] += 1
+  #  end
+  #  puts @trail_names #test to see if double-counting occurs here: it does
+  #end
 
   def createTrail
     itr = 0
@@ -168,6 +176,7 @@ class InstagramController < ApplicationController
   end
 
   def instagram_api_user_call()
+    puts 'INSTAGRAM API USER CALL'
     client = Instagram.client(:access_token => session[:access_token])
     puts 'ACCESS TOKEN IS'
     puts session[:access_token]
@@ -232,5 +241,5 @@ class InstagramController < ApplicationController
 #   print "% of NULL image locations: "
 #   puts perc_null_location
 #   return perc_null_location
-# end
+ #end
 end

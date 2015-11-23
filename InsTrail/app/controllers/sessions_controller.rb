@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 	    puts 'USER ID IS'
 	    puts @user.uid
 	    session[:user_id] = @user.uid
-	    #session[:access_token] = @user.access_token
+	    session[:access_token] = @user.access_token
 	    #session[:user_id] = request.env['omniauth.auth']['uid']
 	    flash[:success] = "Welcome, #{@user.nickname}!"
 	  rescue
