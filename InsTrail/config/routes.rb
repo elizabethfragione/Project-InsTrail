@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get "/index" => "instagram#index"
   post "/" => "instagram#refresh_map"
   post "/user_history" => "instagram#user_history"
+  post "/low10" => "instagram#low10"
+  post "/top10" => "instagram#top10"
+  post "/filters" => "instagram#clear_filters"
   get "/about" => "about#index"
   get "/settings" => "settings#index"
 

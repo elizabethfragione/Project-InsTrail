@@ -108,3 +108,8 @@ input[type=range]:focus::-ms-fill-upper {
 input[type=submit] {
 	margin-top: 10px;
 }
+
+td.words {
+	vertical-align: bottom;
+	font-size: 17;
+}

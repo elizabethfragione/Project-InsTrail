@@ -2,18 +2,32 @@ class InstagramController < ApplicationController
   TAG = "vancouvertrails"
   @image_data = Array.new
   @@API_CALLS = 1
-  
-  #controller methods to render 
-  #need to refactor so that the API calls are in separate models 
+  #controller methods to render
+  #need to refactor so that the API calls are in separate models
   def index
-    
+
     # returns to home page through the back-button of the browser should not make new instagram calls
     #if !initial_landing?
     #  return_home
     #  return
     #end
     update_recent_trail_info()
-    
+
+  end
+
+  def top10
+    puts 'TOP10 CALLED'
+    instagram_api_user_call
+    addPinsToMap()
+    render :index
+  end
+
+  def low10
+    puts 'LOW10 CALLED'
+    instagram_api_user_call
+
+    addPinsToMap()
+    render :index
   end
 
   def user_history
@@ -25,17 +39,24 @@ class InstagramController < ApplicationController
     render :index
   end
 
+  def clear_filters
+    puts 'FILTERS CALLED'
+    instagram_api_user_call
+
+    addPinsToMap()
+    render :index
+  end
+
   #calls instagram, updates trails
   def update_recent_trail_info
-    @trail_names = Hash.new(0) 
-    @list_of_trails = Array.new 
+    @trail_names = Hash.new(0)
+    @list_of_trails = Array.new
     instagram_api_call()
     @last_time_updated = Time.now
     countNames()
     createTrail
     addPinsToMap()
   end
-
 
   # called from the home button
   def return_home
@@ -68,7 +89,7 @@ class InstagramController < ApplicationController
 
           count_str = trail.get_count.to_s
           url_for_marker = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + count_str +'|FF0000|000000'
-          
+
           marker.picture({
                       :url => url_for_marker,
                       #:url    => 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red' + trail.get_count.to_s + '.png',
@@ -81,20 +102,19 @@ class InstagramController < ApplicationController
     end
   end
 
-  
   def countNames()
     @image_data.each do |image|
       name = image.location.name
       @trail_names[name] += 1
-    end    
-    puts @trail_names #test to see if double-counting occurs here: it does 
+    end
+    puts @trail_names #test to see if double-counting occurs here: it does
   end
 
   def createTrail
     itr = 0
     @trail_names.each do |name, count|
       t = Time.now
-      if (itr == 10) 
+      if (itr == 10)
         itr = 0
         puts "Have to time out"
         sleep (t + 1.5 - Time.now)
@@ -110,19 +130,18 @@ class InstagramController < ApplicationController
       end
     end
   end
-  
-  # need to move this else where 
+
+  # need to move this else where
   def instagram_api_call()
     # initial tag_recent_media
     @image_data = Instagram.tag_recent_media(TAG, {})
     next_max_id = @image_data.pagination.next_max_tag_id
     @image_data = filter_by_location(@image_data)
-    
+
     # number of API calls for tag recent media
     @image_data = get_tag_recent_media(TAG, @image_data,next_max_id)
-    #perc_null_location = perc_null_location(@image_data)
-    
-    
+  #perc_null_location = perc_null_location(@image_data)
+
   end
 
   def instagram_api_user_call()
@@ -135,8 +154,8 @@ class InstagramController < ApplicationController
     #next_max_id = @image_data.pagination.next_max_tag_id
 
   end
-  
-  # need to move this else where 
+
+  # need to move this else where
   def get_tag_recent_media(tag, image_data, next_max_id)
     iter = 0
     num_images = 0
@@ -145,37 +164,37 @@ class InstagramController < ApplicationController
       next_max_id = non_filtered_tag_media.pagination.next_max_tag_id
       tag_media = filter_by_location(non_filtered_tag_media)
       image_data = image_data + tag_media
-      
+
       num_images += tag_media.length
       iter = iter + 1
       print "Number of Images so far: "
       puts num_images
     end
-    
+
     return image_data
   end
-  
+
   def filter_by_location(non_filtered_tag_media)
     tag_media = Array.new
     non_filtered_tag_media.each do |image|
       unless image.location.nil?
-        tag_media << image
+      tag_media << image
       end
     end
     return tag_media
   end
-  
-  # Test the percentage of photos with no associated location
-  # def perc_null_location(image_data)
-  #   location_null_count = 0
-  #   image_data.each do |image|
-  #     if image.location.nil?
-  #       location_null_count = location_null_count + 1
-  #     end
-  #   end
-  #   perc_null_location = location_null_count.to_f / image_data.length
-  #   print "% of NULL image locations: "
-  #   puts perc_null_location
-  #   return perc_null_location
-  # end
+
+# Test the percentage of photos with no associated location
+# def perc_null_location(image_data)
+#   location_null_count = 0
+#   image_data.each do |image|
+#     if image.location.nil?
+#       location_null_count = location_null_count + 1
+#     end
+#   end
+#   perc_null_location = location_null_count.to_f / image_data.length
+#   print "% of NULL image locations: "
+#   puts perc_null_location
+#   return perc_null_location
+# end
 end
