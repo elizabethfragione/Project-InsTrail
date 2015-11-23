@@ -6,6 +6,8 @@ class CreateTrails < ActiveRecord::Migration
       t.string :name
       t.integer :count
       t.boolean :user
+      t.float :lat
+      t.float :lon
       t.references :map
     end
   end

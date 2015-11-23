@@ -1,21 +1,28 @@
 Rails.application.routes.draw do
-  # Assuem: 
-  # button 1 = Setting 
-  # button 2 = Top 20 
-  # button 3 = Popular 
-  # button 4 = Your trails 
-  # button 5 = Clear filter
-  root 'map#index'
+  root to: 'map#index'
+  
+  get "/index" => "map#index"
   get "/refresh_map" => "map#refresh_map"
-  post "/refresh_map" => "map#refresh_map"
-  # post "/refresh_map" => "instagram#refresh_map"
-  # different filtered maps: show needs to filter? 
-  get "/map/:id" => "map#show", as: :filtered_map
+  post "/" => "map#refresh_map"
+  post "/user_history" => "map#user_history"
+  get "/user_history" => "map#user_history"
   get "/about" => "about#index"
-  get "/setting" => "setting#index"
-  
-  get "/history" => "map#history"
-  post "/history" => "map#history"
-  
-  get "/top_10" => "map#top_10"
+  get "/settings" => "settings#index"
+  post '/settings/' => 'settings#update'
+  post "/low10" => "map#low10"
+  post "/top10" => "map#top10"
+  post "/filters" => "map#clear_filters"
+  get "/about" => "about#index"
+  get "/settings" => "settings#index"
+
+  post "/settings/" => "settings#set_settings"
+
+  get '/auth/:provider/callback', to: 'sessions#create'
+  get '/auth/failure', to: 'map#index'
+  delete '/logout', to: 'sessions#destroy'
+
+
+  resources :users
+  resources :settings
+
 end

@@ -11,20 +11,23 @@ class Map < ActiveRecord::Base
     self.update_attribute(:authenticated, @authenticated)
     self.update_attribute(:kind, @kind)
     
+    # make sure to erase user trails everytime logged out 
     if (@authenticated == true) 
-      # here need to get a second set of data from autenticated user's media
+        puts 'INSTAGRAM API USER CALL'
+        client = Instagram.client(:access_token => session[:access_token])
+        puts 'ACCESS TOKEN IS'
+        puts session[:access_token]
+        @user_data = client.user_recent_media
+        next_max_id = @user_data.pagination.next_max_id
+        @user_data = find_data_with_location(@user_data)
+        user_trail_data = find_trail_and_counts(@user_data)
+        @user_trails = create_trails(user_trail_data, @authenticated)
     end
     
-    # create trails for this map based on params, save in database? 
-
-    # test of data is successfully fetched: puts trail_data 
-    trail_data.each do |name, count| 
-      @trail = self.trails.create({:name => name, :count => count, :user => false, :map_id => self.id})
-    end
+    @trails = create_trails(trail_data, @authenticated)
     return self
   end
   
-
   # Make Instagram API call(s) to Instagram to get elements for map object  
   # input: tag to search, number of API calls 
   # output: array of image data (Hashie Mesh form)
@@ -65,5 +68,50 @@ class Map < ActiveRecord::Base
     end    
     return trail_data
   end
+  
+  def create_trails(trail_data, authenticated)
+      itr = 0
+      trail_data.each do |trail_name, photo_count|
+        t = Time.now
+        if (itr == 10) 
+          itr = 0
+          puts "Have to time out"
+          sleep (t + 1.5 - Time.now)
+        else
+          itr += 1
+          puts itr
+          lat_lon = Geocoder.coordinates(trail_name)
+          if !lat_lon.nil? && in_vancouver(lat_lon)
+            @trail = self.trails.create(:name => trail_name, :user => authenticated, :lat => lat_lon[0], :lon => lat_lon[1], :count => photo_count)
+            create_photos(@trail)
+          end
+        end
+      end
+      return @trails
+    end
+  end
+    
+  def create_photos(trail)
+    trail_name = @trail.name
+    photos_hash = Array.new
+    photos = Array.new
+    @image_data.each do |img|
+      if trail_name == img.location.name
+        photos_hash << img
+      end 
+      photos_hash.each do |img|
+        location = img.location
+        low_resolution_url = img.images.low_resolution.url
+        thumbnail_url = img.images.thumbnail.url
+        standard_resolution_url = img.images.standard_resolution.url
+        @photo = trail.photos.create(:trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
+      end
+    end
+  end
+  
+  def in_vancouver(lat_lon)
+    return (48.931235 <= lat_lon[0] && lat_lon[0] <= 50.811827 && -128.530631 <= lat_lon[1] && lat_lon[1] <= -122.235670)
+  end
+
   
 end
