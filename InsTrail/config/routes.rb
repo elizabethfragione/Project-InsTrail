@@ -13,9 +13,18 @@ Rails.application.routes.draw do
   get "/about" => "about#index"
   get "/settings" => "settings#index"
   post '/settings/' => 'settings#update'
+  post "/low10" => "instagram#low10"
+  post "/top10" => "instagram#top10"
+  post "/filters" => "instagram#clear_filters"
+  get "/about" => "about#index"
+  get "/settings" => "settings#index"
+
+  post "/settings/" => "settings#set_settings"
+
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: 'instagram#index'
   delete '/logout', to: 'sessions#destroy'
+
 
   resources :users
   resources :settings

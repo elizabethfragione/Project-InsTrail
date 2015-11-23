@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20151123053309) do
     t.datetime "updated_at",   null: false
   end
 
+
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", null: false
     t.text     "data"
@@ -31,6 +32,8 @@ ActiveRecord::Schema.define(version: 20151123053309) do
 
   create_table "settings", force: :cascade do |t|
     t.string   "number"
+
+  create_table "photos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
