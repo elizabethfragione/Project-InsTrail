@@ -47,6 +47,11 @@
             <div class="jumbotron main">
                 <div class="row">
                   <div class="map-container col-md-10">
+					  <ul>
+						  <% flash.each do |key, msg| %>
+						  <%= content_tag :li, msg, id:key %>
+						  <% end %>
+				  	</ul>
 
                     <!--<div style='width: 800px;'>-->
                     <!--<div class="row" style='min-width: 400px;'>

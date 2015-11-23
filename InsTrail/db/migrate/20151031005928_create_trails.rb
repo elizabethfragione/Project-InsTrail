@@ -3,6 +3,10 @@ class CreateTrails < ActiveRecord::Migration
     create_table :trails do |t|
 
       t.timestamps null: false
+      t.string :name
+      t.integer :count
+      t.boolean :user
+      t.references :map
     end
   end
 end

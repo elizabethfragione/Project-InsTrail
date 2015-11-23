@@ -2,6 +2,7 @@ class InstagramController < ApplicationController
   TAG = "vancouvertrails"
   @image_data = Array.new
   @@API_CALLS = 10
+  @@Autenticated = false 
   
   #controller methods to render 
   #need to refactor so that the API calls are in separate models 
@@ -133,6 +134,7 @@ class InstagramController < ApplicationController
     return image_data
   end
   
+  # manipulate model: can stay? 
   def filter_by_location(non_filtered_tag_media)
     tag_media = Array.new
     non_filtered_tag_media.each do |image|
@@ -141,6 +143,13 @@ class InstagramController < ApplicationController
       end
     end
     return tag_media
+  end
+  
+  # See how to know if user is authenticated
+  def filter_by_popularity
+    # if not authenticated, use default setting 
+    # setting = Popularity.new.get_setting
+    
   end
   
   # Test the percentage of photos with no associated location
