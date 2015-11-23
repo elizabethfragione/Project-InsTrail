@@ -16,6 +16,15 @@ class InstagramController < ApplicationController
     
   end
 
+  def user_history
+    puts 'HISTORY CALLED'
+
+    instagram_api_user_call
+
+    addPinsToMap()
+    render :index
+  end
+
   #calls instagram, updates trails
   def update_recent_trail_info
     @trail_names = Hash.new(0) 
@@ -36,6 +45,7 @@ class InstagramController < ApplicationController
 
   # called from refresh button
   def refresh_map
+    puts 'REFRESH MAP CALLED'
     update_recent_trail_info
     render :index
   end
@@ -114,6 +124,18 @@ class InstagramController < ApplicationController
     
     
   end
+
+  def instagram_api_user_call()
+    #client = Instagram.client(:access_token => session[:access_token])
+    #@image_data = Instagram.client.user_recent_media
+    #puts 'USER CALL'
+    #@image_data.each do |image|
+    #  puts image.text
+    #end
+    #next_max_id = @image_data.pagination.next_max_tag_id
+
+  end
+  
   # need to move this else where 
   def get_tag_recent_media(tag, image_data, next_max_id)
     iter = 0

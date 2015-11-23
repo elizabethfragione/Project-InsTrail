@@ -2,14 +2,21 @@ Rails.application.routes.draw do
 
   get 'settings/index'
 
-  root 'instagram#index'
+  root to: 'instagram#index'
+  #get "/index" => "instagram#return_home"
+  #post "/refresh_map" => "instagram#refresh_map"
   get "/index" => "instagram#index"
   post "/" => "instagram#refresh_map"
+  post "/user_history" => "instagram#user_history"
   get "/about" => "about#index"
   get "/settings" => "settings#index"
+
   post "/settings/" => "settings#set_settings"
+
+  get '/auth/:provider/callback', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
   # post "/refresh_map" => "instagram#refresh_map"
-  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
