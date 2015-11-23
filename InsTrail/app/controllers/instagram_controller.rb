@@ -21,17 +21,24 @@ class InstagramController < ApplicationController
 
   def top10
     puts 'TOP10 CALLED'
+     @trail_names = Hash.new(0) 
+    @list_of_trails = Array.new 
     instagram_api_user_call
-    addPinsToMap()
-    render :index
+    @last_time_updated = Time.now
+    countNames(@user_data)
+    createTrail
+    addPinsToMap
   end
 
   def low10
     puts 'LOW10 CALLED'
+     @trail_names = Hash.new(0) 
+    @list_of_trails = Array.new 
     instagram_api_user_call
-
-    addPinsToMap()
-    render :index
+    @last_time_updated = Time.now
+    countNames(@user_data)
+    createTrail
+    addPinsToMap
   end
 
   def user_history
@@ -47,10 +54,13 @@ class InstagramController < ApplicationController
 
   def clear_filters
     puts 'FILTERS CALLED'
+     @trail_names = Hash.new(0) 
+    @list_of_trails = Array.new 
     instagram_api_user_call
-
-    addPinsToMap()
-    render :index
+    @last_time_updated = Time.now
+    countNames(@user_data)
+    createTrail
+    addPinsToMap
   end
 
   #calls instagram, updates trails
