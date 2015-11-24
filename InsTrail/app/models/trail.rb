@@ -1,29 +1,13 @@
-class Trail 
-  @name 
-  @latlon
-  @count 
-  # initialize trail with name, lat_long info and photo count
-  def initialize(name, latlon, count)
-    @name = name
-    @latlon = latlon
-  	@count = count
-		
-  end
-  # getter for lat_lon
-  def get_latlon
-    @latlon
-  end
+class Trail < ActiveRecord::Base
+  belongs_to :map
+  has_many :photos
 
   def get_lat
-  	if !@latlon.nil?
-  		@latlon[0]
-  	end
+  	return @lat
   end
 
   def get_lon
-  	if !@latlon.nil?
-  		@latlon[1]
-  	end
+  	return @lon
   end
 
   def get_name
@@ -31,7 +15,7 @@ class Trail
   end
     # getter for count
   def get_count
-		@count
+	return @count
   end
 
 end

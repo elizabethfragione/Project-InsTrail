@@ -1,21 +1,26 @@
 class Photo < ActiveRecord::Base
-	def initialize(t_name, t_location, p_location )
-		@trail_name = t_name
-		@trail_location = t_location
-		@photo_location = p_location
-	end
+	belongs_to :trail
+	
+#	def initialize(trail_name,low_resolution_url,thumbnail_url,standard_resolution_url)
+#		@trail_name = trail_name
+#		@low_resolution_url = low_resolution_url
+#		@thumbnail_url = thumbnail_url
+#		@standard_resolution_url = standard_resolution_url
+#	end
 
 	def get_trail_name()
-		@trail_name
-	end
-
-	def get_trail_location()
-		@trail_location
-	end
-	
-	def get_photo_location()
-		@trail_location
-	end
-
-
+    @trail_name
+  end
+  
+  def get_low_resolution_url()
+    @low_resolution_url
+  end
+  
+  def get_thumbnail_url()
+    @thumbnail_url
+  end
+  
+  def get_standard_resolution_url()
+    @standard_resolution_url
+  end
 end

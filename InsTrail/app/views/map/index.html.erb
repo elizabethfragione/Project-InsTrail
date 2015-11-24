@@ -73,10 +73,8 @@
 
 							<!--<div style='width: 800px;'>-->
 							<!--<div class="row" style='min-width: 400px;'>
-
 							<div id="map" class="pull-right col-10-md" style='width: 700px; height: 400px;'>
 							</div>
-
 							</div>-->
 
 							<div class="row" style='min-width: 400px;'>
@@ -136,7 +134,6 @@
 		handler = Gmaps.build('Google');
 handler.buildMap({ provider: {}, internal: {id: 'map'}},
 function(){
-
 markers = handler.addMarkers(<%= raw @hash.to_json %>
 	);
 	/*markers = handler.addMarkers([
@@ -151,10 +148,8 @@ markers = handler.addMarkers(<%= raw @hash.to_json %>
 	 "infowindow": "hello!"
 	 }
 	 ]);*/
-
 	handler.bounds.extendWith(markers);
 	handler.fitMapToBounds();
 	});
-
 	</script>
 	</html>

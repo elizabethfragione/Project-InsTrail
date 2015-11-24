@@ -38,4 +38,6 @@ class SettingsController < ApplicationController
   def setting_params
   	params.require(:setting)
   end
+  def update 
+  end
 end

@@ -3,7 +3,7 @@ class CreateSettings < ActiveRecord::Migration
     create_table :settings do |t|
 
 
-      t.string :number
+      t.integer :number
       t.timestamps null: false
     end
   end

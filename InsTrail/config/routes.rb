@@ -1,86 +1,28 @@
 Rails.application.routes.draw do
-
-  get 'settings/index'
-
-  root to: 'instagram#index'
-  #get "/index" => "instagram#return_home"
-  #post "/refresh_map" => "instagram#refresh_map"
+  root to: 'map#index'
   
-  get "/index" => "instagram#index"
-  post "/" => "instagram#refresh_map"
-  post "/user_history" => "instagram#user_history"
-  get "/user_history" => "instagram#user_history"
+  get "/index" => "map#index"
+  get "/refresh_map" => "map#refresh_map"
+  post "/refresh_map" => "map#refresh_map"
+  post "/user_history" => "map#user_history"
+  get "/user_history" => "map#user_history"
   get "/about" => "about#index"
   get "/settings" => "settings#index"
   post '/settings/' => 'settings#update'
-  post "/low10" => "instagram#low10"
-  post "/top10" => "instagram#top10"
-  post "/filters" => "instagram#clear_filters"
+  post "/low10" => "map#low10"
+  post "/top10" => "map#top10"
+  post "/filters" => "map#clear_filters"
   get "/about" => "about#index"
   get "/settings" => "settings#index"
 
   post "/settings/" => "settings#set_settings"
 
   get '/auth/:provider/callback', to: 'sessions#create'
-  get '/auth/failure', to: 'instagram#index'
+  get '/auth/failure', to: 'map#index'
   delete '/logout', to: 'sessions#destroy'
 
 
   resources :users
   resources :settings
-  # post "/refresh_map" => "instagram#refresh_map"
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end
