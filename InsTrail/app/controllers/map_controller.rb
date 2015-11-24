@@ -1,7 +1,6 @@
 class MapController < ApplicationController
   @@map = nil
   def index
-    params = {}
     if current_user
       #@map = Map.create(:authenticated => true, :kind => "default")
       puts 'INSIDE INDEX CURRENT USER IN MAPS CONTROLLER'
@@ -15,17 +14,6 @@ class MapController < ApplicationController
     addPinsToMap(Trail.where(user: false))
   end
   
-  def refresh_map
-    Trail.destroy_all
-    Photo.destroy_all
-    Map.destroy_all
-    index
-    render 'index'
-    #render 'index'
-  end
-  
-  # fix double-creating map
-  
   def user_history
     #authenticated = @map[:authenticated]
     puts '**** INSIDE HISTORY **** '
@@ -35,7 +23,7 @@ class MapController < ApplicationController
 
     if (not current_user)
       puts '**** NOT AUTHENTICATED **** '
-	    flash[:success] = "You need to be logged in to view your history."
+	    flash.now[:notice] = "You need to be logged in to view your history."
       addPinsToMap(Trail.where(user: false))
     
     else
@@ -75,6 +63,33 @@ class MapController < ApplicationController
     
   end
   
+  def popular 
+    if current_user 
+      setting = current_user.setting
+      trails = Trail.where('count >= ?', setting.number)
+    else 
+      puts DEFAULT
+      trails = Trail.where('count >= ?', DEFAULT)
+    end
+    addPinsToMap(trails)
+    render 'index'
+  end 
+  
+  def clear_filters
+    trails = Trail.where(user: false)
+    addPinsToMap(trails)
+    render 'index'
+  end
+  
+  def refresh_map
+    Trail.destroy_all
+    Photo.destroy_all
+    Map.destroy_all
+    index
+    render 'index'
+  end
+  
+  
   def addPinsToMap(trails)
     @hash = Gmaps4rails.build_markers(trails) do |trail, marker|
       if !trail.nil?
@@ -98,4 +113,5 @@ class MapController < ApplicationController
       end
     end
   end
+  
 end

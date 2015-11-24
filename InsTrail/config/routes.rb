@@ -14,8 +14,16 @@ Rails.application.routes.draw do
   get "/settings" => "settings#index"
   post "/settings" => 'settings#update'
   
+  get "/low10" => "map#low10"
   post "/low10" => "map#low10"
+  
+  get "/top10" => "map#top10"
   post "/top10" => "map#top10"
+  
+  get "/popular" => "map#popular"
+  post "popular" => "map#popular"
+  
+  get "/filters" => "map#clear_filters"
   post "/filters" => "map#clear_filters"
   
   get "/about" => "about#index"
