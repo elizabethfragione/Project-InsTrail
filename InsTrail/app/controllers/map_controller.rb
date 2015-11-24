@@ -9,7 +9,6 @@ class MapController < ApplicationController
     else
       puts 'INSIDE INDEX NOT CURRENT USER IN MAPS CONTROLLER'
       @map = Map.create({:authenticated => false, :access_token => 0, :user_id => 0})
-      #@map = Map.create(:authenticated => false, :kind => "default")
     end
     @@map = @map
     #@map.create_trails
