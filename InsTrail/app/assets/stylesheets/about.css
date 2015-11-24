@@ -2,6 +2,22 @@
   Place all the styles related to the matching controller here.
   They will automatically be included in application.css.
 */
-h1 {
-	text-color: red;
+#about-para {
+	text-align: justify;
+
+}
+
+#about-table {
+	width: 100%;
+	
+}
+
+.style_image {
+	border: 1px solid #CCCCCC;
+	height: 160px;
+	width: 160px;
+}
+
+#about-ins {
+	font-family: ;
 }

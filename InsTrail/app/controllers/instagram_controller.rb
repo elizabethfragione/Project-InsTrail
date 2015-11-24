@@ -1,7 +1,6 @@
 class InstagramController < ApplicationController
   TAG = "vancouvertrails"
   @image_data = Array.new
-  @@API_CALLS = 0
   
   #controller methods to render 
   #need to refactor so that the API calls are in separate models 
