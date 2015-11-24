@@ -34,7 +34,7 @@ class MapController < ApplicationController
     authenticated = current_user
     puts current_user
 
-    if (authenticated == false)
+    if (not current_user)
       puts '**** NOT AUTHENTICATED **** '
 	    flash[:success] = "You need to be logged in to view your history."
       addPinsToMap(Trail.where(user: false))
@@ -44,8 +44,6 @@ class MapController < ApplicationController
       Map.destroy_all
       puts 'PRINT CURRENT USER BELOW'
       puts current_user
-
-
       @map = Map.create({:authenticated => true, :user_id => current_user.id})
       #@map = Map.create(:authenticaed => true, :kind => "default")
       trails = Trail.where(user: true)

@@ -40,7 +40,7 @@ class Map < ActiveRecord::Base
       @user_trails = create_trails(user_trail_data, authenticated)
     end
     # MOVE TRAIL CREATIIONG into MapController
-    @trails = create_trails(trail_data, authenticated)
+    @trails = create_trails(trail_data, false)
     return self
   end
   
