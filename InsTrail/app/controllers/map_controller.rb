@@ -3,9 +3,13 @@ class MapController < ApplicationController
   def index
     params = {}
     if current_user
-      @map = Map.create(true, "default")
+      #@map = Map.create(:authenticated => true, :kind => "default")
+      puts 'INSIDE INDEX CURRENT USER IN MAPS CONTROLLER'
+      @map = Map.create({:authenticated => true, :access_token => current_user.access_token, :user_id => current_user.id})
     else
-      @map = Map.create(false, "default")
+      puts 'INSIDE INDEX NOT CURRENT USER IN MAPS CONTROLLER'
+      @map = Map.create({:authenticated => false, :access_token => 0, :user_id => 0})
+      #@map = Map.create(:authenticated => false, :kind => "default")
     end
     @@map = @map
     #@map.create_trails
@@ -13,22 +17,42 @@ class MapController < ApplicationController
   end
   
   def refresh_map
-    puts @@map[:authenticated]
+    Trail.destroy_all
+    Photo.destroy_all
+    Map.destroy_all
+    index
     render 'index'
+    #render 'index'
   end
   
   # fix double-creating map
   
-  def history
-    authenticated = @@map[:authenticated]
+  def user_history
+    #authenticated = @map[:authenticated]
+    puts '**** INSIDE HISTORY **** '
+    puts current_user
+    authenticated = current_user
+    puts current_user
+
     if (authenticated == false)
-	    flash[:success] = "Welcome, #{current_user.nickname}!"
-      render 'index'
+      puts '**** NOT AUTHENTICATED **** '
+	    flash[:success] = "You need to be logged in to view your history."
+      addPinsToMap(Trail.where(user: false))
+    
     else
-      trails = Trail.where('user = ?', params[true])
+      puts '**** AUTHENTICATED **** '
+      Map.destroy_all
+      puts 'PRINT CURRENT USER BELOW'
+      puts current_user
+
+
+      @map = Map.create({:authenticated => true, :user_id => current_user.id})
+      #@map = Map.create(:authenticaed => true, :kind => "default")
+      trails = Trail.where(user: true)
       #removePinsFromMap
       addPinsToMap(trails)
     end
+    render 'index'
   end
   
   # get top 10 public trails by biggest count 

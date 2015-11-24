@@ -2,8 +2,9 @@ class CreateMaps < ActiveRecord::Migration
   def change
     create_table :maps do |t|
 
-      t.boolean :authenticated
+      t.boolean :authenticated, null: false
       t.string :kind
+      t.string :user_id
       t.timestamps null: false
     end
   end

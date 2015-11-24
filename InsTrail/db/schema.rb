@@ -14,8 +14,9 @@
 ActiveRecord::Schema.define(version: 20151123225822) do
 
   create_table "maps", force: :cascade do |t|
-    t.boolean  "authenticated"
+    t.boolean  "authenticated", null: false
     t.string   "kind"
+    t.string   "user_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -37,6 +38,7 @@ ActiveRecord::Schema.define(version: 20151123225822) do
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", null: false
     t.text     "data"
+    t.string   "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

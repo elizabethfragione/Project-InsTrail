@@ -7,9 +7,9 @@ class SessionsController < ApplicationController
 	    @user = User.from_omniauth(request.env['omniauth.auth'])
 	    puts 'FROM_OMNIAUTH RETURNS!'
 	    puts 'USER ID IS'
-	    puts @user.uid
-	    session[:user_id] = @user.uid
-	    session[:access_token] = @user.access_token
+	    puts @user.id
+	    session[:user_id] = @user.id
+	    #$session[:access_token] = @user.access_token
 	    #session[:user_id] = request.env['omniauth.auth']['uid']
 	    flash[:success] = "Welcome, #{@user.nickname}!"
 	  rescue
@@ -21,15 +21,15 @@ class SessionsController < ApplicationController
 
 	def destroy
 	  if current_user
-	    #session.delete(:user_id)
+	    session.delete(:user_id)
 	    #session[:user_id] = nil
 	    #session[:access_token] = nil
 
-	    reset_session
+	    #reset_session
 	    #session.delete(:access_token)
 	    #session.clear
 	    #@user = nil
-	    #flash[:success] = 'See you!'
+	    flash[:success] = 'See you!'
 	  end
 	  redirect_to root_path
 	end

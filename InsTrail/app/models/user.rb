@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 	@user
-	attr_accessible :nickname, :image_url, :provider, :uid
+	attr_accessible :nickname, :image_url, :provider, :uid, :access_token
 
 	def self.from_omniauth(auth_hash)
 	  	puts 'USER FROM_OMNIAUTH !UY!'
@@ -10,18 +10,8 @@ class User < ActiveRecord::Base
 	    @user.nickname = auth_hash['info']['nickname']
 	    @user.image_url = auth_hash['info']['image']
 	    @user.access_token = auth_hash['credentials']['token']
-
-
 	    @user.save!
 	    @user
-	    #user.name = auth_hash['info']['name'] || "empty name"
-	    
-	    #puts 'NICK NAME'
-	    #puts auth_hash['info']['nickname']
-	    #puts 'IMAGE_URL'
-	    #puts auth_hash['info']['image']
-	    #puts 'ACCESS_TOKEN'
-	    #puts auth_hash['credentials']['token']
     end
 
     def self.get_user

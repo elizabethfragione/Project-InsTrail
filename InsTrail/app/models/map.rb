@@ -1,32 +1,46 @@
 class Map < ActiveRecord::Base
   has_many :trails
+  API_CALLS = 1
+  attr_accessible :authenticated, :user_id
   #might need to use after initialize
-  
-  def initialize (authenticated, kind)
+  #def initialize(params = {})
+  def initialize (params = {}, kind)
+    authenticated = params.fetch(:authenticated)
+    
+    
+
+    puts 'AUTHENTICATED VALUE = ' + authenticated.to_s
+
     super
-    @authenticated = authenticated
-    @kind = kind
+    puts 'AUTHENTICATED VALUE = ' + authenticated.to_s
+
+    #@authenticated = params.fetch(:authenticated)
+    #@kind = kind
+
+
 
     @data = call_instagram
     @data_with_location = find_data_with_location(@data)
     trail_data = find_trail_and_counts(@data_with_location)
-    self.update_attribute(:authenticated, @authenticated)
-    self.update_attribute(:kind, @kind)
-    
+    self.update_attribute(:authenticated, authenticated)
+    #self.update_attribute(:kind, @kind)
+    #self.authenticated = true
     # make sure to erase user trails everytime logged out 
-    if (@authenticated == true) 
-        puts 'INSTAGRAM API USER CALL'
-        client = Instagram.client(:access_token => session[:access_token])
-        puts 'ACCESS TOKEN IS'
-        puts session[:access_token]
-        @user_data = client.user_recent_media
-        next_max_id = @user_data.pagination.next_max_id
-        @user_data = find_data_with_location(@user_data)
-        user_trail_data = find_trail_and_counts(@user_data)
-        @user_trails = create_trails(user_trail_data, @authenticated)
+    if (authenticated == true) 
+      user_id = params.fetch(:user_id)
+      puts 'INSTAGRAM API USER CALL'
+      puts 'ACCESS TOKEN IS'
+      self.user_id = user_id
+
+      #puts current_session[:access_token]
+      @user_data = call_instagram_user
+      
+      @user_data_with_location = find_data_with_location(@user_data)
+      user_trail_data = find_trail_and_counts(@user_data_with_location)
+      @user_trails = create_trails(user_trail_data, authenticated)
     end
     # MOVE TRAIL CREATIIONG into MapController
-    @trails = create_trails(trail_data, @authenticated)
+    @trails = create_trails(trail_data, authenticated)
     return self
   end
   
@@ -39,13 +53,36 @@ class Map < ActiveRecord::Base
     @data = Instagram.tag_recent_media(TAG, {})
     next_max_id = @data.pagination.next_max_tag_id
     itr = itr + 1
-    while itr < CALLS
+    
+    while itr < API_CALLS
       new_data = Instagram.tag_recent_media(TAG, {:max_id => next_max_id})
       next_max_id = new_data.pagination.next_max_tag_id
       @data = @data + new_data
       itr = itr + 1
     end
     return @data
+  end
+
+    def call_instagram_user
+      puts 'INSIDE INSTAGRAM USER'
+      itr = 0
+      user = User.find_by(id: self.user_id)
+      #user_id = session[:user_id]
+      #user = User.find_by(id: user_id)
+      @user_data = Array.new
+      client = Instagram.client({:access_token => user.access_token})
+      @user_data = client.user_recent_media
+      # TODO: filter out tags
+      next_max_id = @user_data.pagination.next_max_user_id
+      itr = itr + 1
+      
+      while itr < API_CALLS
+        new_data = Instagram.user_recent_media(TAG, {:max_id => next_max_id})
+        next_max_id = new_data.pagination.next_max_user_id
+        @user_data = @user_data + new_data
+        itr = itr + 1
+      end
+      return @user_data
   end
   
   # Filter elements to find those with location information
