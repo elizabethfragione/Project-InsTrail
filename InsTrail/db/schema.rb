@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20151123225822) do
   create_table "trails", force: :cascade do |t|
     t.integer  "map_id"
     t.string   "name",       null: false
-    t.integer  "user_id"
+    t.integer  "user_id",    null: false
     t.float    "lat"
     t.float    "lon"
     t.integer  "count"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20151123225822) do
   end
 
   add_index "trails", ["map_id"], name: "index_trails_on_map_id"
-  add_index "trails", ["name"], name: "index_trails_on_name", unique: true
+  add_index "trails", ["name", "user_id"], name: "index_trails_on_name_and_user_id", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",     null: false
