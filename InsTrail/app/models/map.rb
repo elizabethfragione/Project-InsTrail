@@ -1,7 +1,7 @@
 class Map < ActiveRecord::Base
   has_many :trails
-  API_CALLS = 1
-  attr_accessible :authenticated, :user_id
+  API_CALLS = 10
+  attr_accessible :authenticated, :user_id, :trails
   #might need to use after initialize
   #def initialize(params = {})
   def initialize (params = {}, kind)
@@ -141,6 +141,7 @@ class Map < ActiveRecord::Base
     photos = Array.new
     @data_with_location.each do |img|
       if trail_name == img.location.name
+        puts "PHOTO ADDITION"
         photos_hash << img
       end 
     end
@@ -150,12 +151,7 @@ class Map < ActiveRecord::Base
       low_resolution_url = img.images.low_resolution.url
       thumbnail_url = img.images.thumbnail.url
       standard_resolution_url = img.images.standard_resolution.url
-      pid = img.images.id
-      begin
-        @photo = trail.photos.create(:pid => pid, :trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
-      rescue
-        @photo = Photo.where(pid: pid)
-      end
+      @photo = trail.photos.create(:trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
     end
   end
   

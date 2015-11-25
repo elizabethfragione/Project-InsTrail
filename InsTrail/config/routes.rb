@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get "/settings" => "settings#index"
 
   post "/settings/" => "settings#set_settings"
+  get "/trail_photos/:info" => "map#trail_photos"
+  post "/trail_photos/:info" => "map#trail_photos"
+  
 
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: 'map#index'

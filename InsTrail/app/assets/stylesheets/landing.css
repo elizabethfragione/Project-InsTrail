@@ -292,6 +292,20 @@ html, body {
 
 
 
+/* Check out photos
+ */
+
+/* To layout horizontal LIs */
+#scrollview-content {
+    white-space:nowrap;
+    position:relative;
+   	width:100%
+}
+
+#scrollview-content li {
+    display:inline-block;
+    background-color:#fff;
+}
 
 
 

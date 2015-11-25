@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 20151123225822) do
 
   create_table "photos", force: :cascade do |t|
     t.integer  "trail_id"
-    t.string   "pid",                     null: false
     t.string   "trail_name"
     t.string   "low_resolution_url"
     t.string   "thumbnail_url"
@@ -32,7 +31,6 @@ ActiveRecord::Schema.define(version: 20151123225822) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "photos", ["pid"], name: "index_photos_on_pid", unique: true
   add_index "photos", ["trail_id"], name: "index_photos_on_trail_id"
 
   create_table "sessions", force: :cascade do |t|
