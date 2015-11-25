@@ -8,7 +8,8 @@ class SettingsController < ApplicationController
     if current_user 
     else
       flash[:notice] = "You need to be logged in to modify settings."
-      redirect_to url_for(:controller => :map, :action => :index)
+      #redirect_to url_for(:controller => :map, :action => :index)
+      redirect_to url_for(:controller => :map, :action => :clear_filters)
     end
   end
 

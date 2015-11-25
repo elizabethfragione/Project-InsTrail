@@ -2,6 +2,7 @@ class MapController < ApplicationController
   @@map = nil
   def index
     puts "************INSIDE INDEX*****************"
+    puts CALLS
     if current_user
       #@map = Map.create(:authenticated => true, :kind => "default")
       puts 'INSIDE INDEX CURRENT USER IN MAPS CONTROLLER'
@@ -91,7 +92,7 @@ class MapController < ApplicationController
   end
   
   def return_home
-    redirect_to root_path
+    #redirect_to clear_filters
   end
   
   

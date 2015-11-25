@@ -1,6 +1,6 @@
 class Map < ActiveRecord::Base
   has_many :trails
-  API_CALLS = 1
+  #API_CALLS = 10
   attr_accessible :authenticated, :user_id
   #might need to use after initialize
   #def initialize(params = {})
@@ -54,7 +54,7 @@ class Map < ActiveRecord::Base
     next_max_id = @data.pagination.next_max_tag_id
     itr = itr + 1
     
-    while itr < API_CALLS
+    while itr < CALLS
       new_data = Instagram.tag_recent_media(TAG, {:max_id => next_max_id})
       next_max_id = new_data.pagination.next_max_tag_id
       @data = @data + new_data
@@ -76,7 +76,7 @@ class Map < ActiveRecord::Base
       next_max_id = @user_data.pagination.next_max_user_id
       itr = itr + 1
       
-      while itr < API_CALLS
+      while itr < CALLS and not next_max_id.nil?
         new_data = Instagram.user_recent_media(TAG, {:max_id => next_max_id})
         next_max_id = new_data.pagination.next_max_user_id
         @user_data = @user_data + new_data
@@ -151,11 +151,12 @@ class Map < ActiveRecord::Base
       thumbnail_url = img.images.thumbnail.url
       standard_resolution_url = img.images.standard_resolution.url
       pid = img.images.id
-      begin
-        @photo = trail.photos.create(:pid => pid, :trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
-      rescue
-        @photo = Photo.where(pid: pid)
-      end
+      #begin
+        #@photo = trail.photos.create(:pid => pid, :trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
+        @photo = trail.photos.create(:trail_name => trail_name,:low_resolution_url => low_resolution_url,:thumbnail_url => thumbnail_url,:standard_resolution_url => standard_resolution_url)
+      # rescue
+      #   @photo = Photo.where(pid: pid)
+      # end
     end
   end
   

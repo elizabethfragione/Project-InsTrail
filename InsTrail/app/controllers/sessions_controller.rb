@@ -15,7 +15,8 @@ class SessionsController < ApplicationController
 	  rescue
 	    flash[:warning] = "There was an error while trying to authenticate you..."
 	  end
-	  redirect_to root_path
+	  #redirect_to root_path
+    redirect_to '/index'
 	  
 	end
 
