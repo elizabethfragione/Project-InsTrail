@@ -1,3 +1,3 @@
 TAG = "vancouvertrails"
-CALLS = 3
+CALLS = 7
 DEFAULT = 3
