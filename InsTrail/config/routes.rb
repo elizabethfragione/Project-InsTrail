@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   
   #get "/index" => "map#index"
   get "/index" => "map#clear_filters"
+  post "/index" => "map#clear_filters"
   
   get "/refresh_map" => "map#refresh_map"
   post "/refresh_map" => "map#refresh_map"

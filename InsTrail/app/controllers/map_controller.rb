@@ -44,7 +44,7 @@ class MapController < ApplicationController
   
   # get top 10 public trails by biggest count 
   def top10
-    trails = Trail.where(user_id: 0).where('map_id = 1').limit(10).order('count desc')
+    trails = Trail.where(user_id: 0).limit(10).order('count desc')
     trails.each do |d|
       puts d[:name]
     end
@@ -55,7 +55,7 @@ class MapController < ApplicationController
   end
   
   def low10
-    trails = Trail.where(user_id: 0).where('map_id = 1').limit(10).order('count asc')
+    trails = Trail.where(user_id: 0).limit(10).order('count asc')
     trails.each do |d|
       puts d[:name]
     end
