@@ -1,19 +1,79 @@
 class MapController < ApplicationController
   @@map = nil
+  
   def index
-    params = {}
     if current_user
-      #@map = Map.create(:authenticated => true, :kind => "default")
-      puts 'INSIDE INDEX CURRENT USER IN MAPS CONTROLLER'
       @map = Map.create({:authenticated => true, :access_token => current_user.access_token, :user_id => current_user.id})
     else
-      puts 'INSIDE INDEX NOT CURRENT USER IN MAPS CONTROLLER'
       @map = Map.create({:authenticated => false, :access_token => 0, :user_id => 0})
-      #@map = Map.create(:authenticated => false, :kind => "default")
     end
     @@map = @map
-    #@map.create_trails
-    addPinsToMap(Trail.where(user: false))
+    addPinsToMap(Trail.where(user_id: 0))
+  end
+  
+  
+  def trail_photos
+    @info = params[:info]
+    puts "INFO EXPECTED BELOW"
+    puts @info
+    @info_space = @info.gsub!('+',' ')
+    @selected_trail_photos = Trail.where(name: @info_space).first.photos
+    @selected_trail_photos.each do |t|
+      puts t.thumbnail_url
+    end
+    addPinsToMap(Trail.where(user_id: 0))
+    render 'trail_photos'
+  end
+
+  
+  def user_history
+    if (not current_user)
+	    flash.now[:notice] = "You need to be logged in to view your history."
+      addPinsToMap(Trail.where(user_id: 0))
+    else
+      Map.destroy_all
+      @map = Map.create({:authenticated => true, :user_id => current_user.id})
+      trails = Trail.where(user_id: current_user.id)
+      addPinsToMap(trails)
+    end
+    render 'index'
+  end
+  
+
+  def top10
+    trails = Trail.where(user_id: 0).limit(10).order('count desc')
+    trails.each do |d|
+      puts d[:name]
+    end
+    addPinsToMap(trails)
+    render 'index'
+  end
+  
+  def low10
+    trails = Trail.where(user_id: 0).limit(10).order('count asc')
+    trails.each do |d|
+      puts d[:name]
+    end
+    addPinsToMap(trails)
+    render 'index'
+    
+  end
+  
+  def popular 
+    if current_user 
+      setting = current_user.setting
+      trails = Trail.where('count >= ?', setting.number).where(user_id: 0)
+    else 
+      trails = Trail.where('count >= ?', DEFAULT).where(user_id: 0)
+    end
+    addPinsToMap(trails)
+    render 'index'
+  end 
+  
+  def clear_filters
+    trails = Trail.where(user_id: 0)
+    addPinsToMap(trails)
+    render 'index'
   end
   
   def refresh_map
@@ -22,58 +82,6 @@ class MapController < ApplicationController
     Map.destroy_all
     index
     render 'index'
-    #render 'index'
-  end
-  
-  # fix double-creating map
-  
-  def user_history
-    #authenticated = @map[:authenticated]
-    puts '**** INSIDE HISTORY **** '
-    puts current_user
-    authenticated = current_user
-    puts current_user
-
-    if (not current_user)
-      puts '**** NOT AUTHENTICATED **** '
-	    flash[:success] = "You need to be logged in to view your history."
-      addPinsToMap(Trail.where(user: false))
-    
-    else
-      puts '**** AUTHENTICATED **** '
-      Map.destroy_all
-      puts 'PRINT CURRENT USER BELOW'
-      puts current_user
-      @map = Map.create({:authenticated => true, :user_id => current_user.id})
-      #@map = Map.create(:authenticaed => true, :kind => "default")
-      trails = Trail.where(user: true)
-      #removePinsFromMap
-      addPinsToMap(trails)
-    end
-    render 'index'
-  end
-  
-  # get top 10 public trails by biggest count 
-  def top10
-    trails = Trail.where(user: false).where('map_id = 1').limit(10).order('count desc')
-    trails.each do |d|
-      puts d[:name]
-    end
-    #removePinsFromMap
-    addPinsToMap(trails)
-    render 'index'
-    
-  end
-  
-  def low10
-    trails = Trail.where(user: false).where('map_id = 1').limit(10).order('count asc')
-    trails.each do |d|
-      puts d[:name]
-    end
-    #removePinsFromMap
-    addPinsToMap(trails)
-    render 'index'
-    
   end
   
   def addPinsToMap(trails)
@@ -99,4 +107,5 @@ class MapController < ApplicationController
       end
     end
   end
+  
 end

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class MapControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  #@map = Map.create({:authenticated => false, :access_token => 0, :user_id => 0})
+  #puts @map.authenticated
+
 end

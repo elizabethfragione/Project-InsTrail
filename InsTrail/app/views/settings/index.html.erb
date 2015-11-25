@@ -22,24 +22,35 @@
 						</button>
 
 						<%= link_to(image_tag(
-						image_path("instrail_logo4.png"), class: "tars-logo pull-left", width:"154",height:"46", alt:"Home"), "/index") %>
+						image_path("instrail_logo4.png"), class: "tars-logo pull-left", width:"154",height:"46", alt:"Home"), '/index') %>
 
 						<!--<%= link_to(image_tag(
 						"http://steamworks.com/sites/default/files/logo.png", class: "tars-logo pull-left", size: "76", alt:"Home"), root_path) %>-->
+
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav navbar-right">
-							<!--<li id="about-us"><a id="about-us" href="#about-us">About Us</a></li>-->
-							<li id="about-us">
+							<li id="" style="color:white; margin-top: 12px;">
 								<%= link_to "About", controller: "about" %>
 							</li>
+							<% if current_user %>
 							<li>
-								<button type="button" class="btn btn-primary" id="log-in-button">
-									Log In
-								</button>
+								<%= image_tag current_user.image_url, size: '48x48', style: 'margin-top:8px;' %>
 							</li>
+							<li class="" style="color:white; margin-top: 26px; font-size:16px">
+								<%= current_user.nickname %>
+							</li>
+							<li class="" style="color:white; margin-top: 12px;">
+								<%= link_to 'Log Out', logout_path, method: :delete %>
+							</li>
+							<% else %>
+							<li class="" style="color:white; margin-top: 12px;">
+								<%= link_to 'Log In via Instagram', '/auth/instagram' %>
+							</li>
+							<% end %>
+
 						</ul>
 					</div>
 					<!-- /.navbar-collapse -->
@@ -47,8 +58,9 @@
 				</div>
 			</nav>
 
-			<div id="main">
+			<div id="main" >
 				<div class="jumbotron main">
+<div style="margin-right: 4%; margin-left: 4%;">
 					<h1>Settings</h1>
 <hr>
 					<% flash.each do |key, msg| %>
@@ -60,7 +72,7 @@
 
 					<h4><strong>Popularity Setting</strong></h4>
 					<br>
-					<h5>Assign a value to your popularity setting by moving the slider.</h5>
+					<h5>Assign a value to your popularity setting by moving the slider. Default popularity value is 3; when you click the 'popular' filter, you will only see trails that have count 3 photos.</h5>
 
 
 					<br>
@@ -89,7 +101,7 @@
                         <br>
                         <br>
                         <br>
-                        <p>Old Submit Form To Be Deleted</p>
+                        <!-- <p>Old Submit Form To Be Deleted</p>
 						<form oninput="popularity.value = psetting.valueAsNumber">
 						<label for="setting">Popularity Setting</label>
 						<input type="range"
@@ -124,8 +136,8 @@
 							}
 						</script>
 
-					</form>
-
+					</form> -->
+</div>
 						<!-- ends jumbotron main -->
 					</div>
 					<!-- ends div main -->

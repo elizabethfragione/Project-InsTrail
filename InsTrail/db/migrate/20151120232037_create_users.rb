@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :image_url
       t.string :access_token
       t.timestamps null: false
+      t.references :setting
     end
     add_index :users, :provider
     add_index :users, :uid

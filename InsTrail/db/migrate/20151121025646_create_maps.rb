@@ -4,7 +4,7 @@ class CreateMaps < ActiveRecord::Migration
 
       t.boolean :authenticated, null: false
       t.string :kind
-      t.string :user_id
+      t.integer :user_id
       t.timestamps null: false
     end
   end
