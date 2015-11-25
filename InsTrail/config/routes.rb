@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root to: 'map#index'
   
-  get "/index" => "map#index"
+  #get "/index" => "map#index"
+  get "/index" => "map#return_home"
   
   get "/refresh_map" => "map#refresh_map"
   post "/refresh_map" => "map#refresh_map"

@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20151123225822) do
   create_table "maps", force: :cascade do |t|
     t.boolean  "authenticated", null: false
     t.string   "kind"
-    t.string   "user_id"
+    t.integer  "user_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20151123225822) do
   create_table "trails", force: :cascade do |t|
     t.integer  "map_id"
     t.string   "name",       null: false
-    t.boolean  "user"
+    t.integer  "user_id"
     t.float    "lat"
     t.float    "lon"
     t.integer  "count"

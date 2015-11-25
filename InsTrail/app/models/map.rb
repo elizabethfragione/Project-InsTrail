@@ -37,10 +37,10 @@ class Map < ActiveRecord::Base
       
       @user_data_with_location = find_data_with_location(@user_data)
       user_trail_data = find_trail_and_counts(@user_data_with_location)
-      @user_trails = create_trails(user_trail_data, authenticated)
+      @user_trails = create_trails(user_trail_data, authenticated, user_id)
     end
     # MOVE TRAIL CREATIIONG into MapController
-    @trails = create_trails(trail_data, false)
+    @trails = create_trails(trail_data, false, 0)
     return self
   end
   
@@ -108,7 +108,7 @@ class Map < ActiveRecord::Base
     return trail_data
   end
   
-  def create_trails(trail_data, authenticated)
+  def create_trails(trail_data, authenticated, user_id)
     itr = 0
     trail_data.each do |trail_name, photo_count|
       t = Time.now
@@ -124,7 +124,7 @@ class Map < ActiveRecord::Base
           puts "************************* TRAIL NAME ******************"
           puts trail_name
           begin
-            @trail = self.trails.create(:name => trail_name, :user => authenticated, :lat => lat_lon[0], :lon => lat_lon[1], :count => photo_count)
+            @trail = self.trails.create(:name => trail_name, :user_id => user_id, :lat => lat_lon[0], :lon => lat_lon[1], :count => photo_count)
           rescue
             @trail = Trail.where(name: trail_name)
           end

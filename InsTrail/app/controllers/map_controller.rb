@@ -1,6 +1,7 @@
 class MapController < ApplicationController
   @@map = nil
   def index
+    puts "************INSIDE INDEX*****************"
     if current_user
       #@map = Map.create(:authenticated => true, :kind => "default")
       puts 'INSIDE INDEX CURRENT USER IN MAPS CONTROLLER'
@@ -11,7 +12,7 @@ class MapController < ApplicationController
     end
     @@map = @map
     #@map.create_trails
-    addPinsToMap(Trail.where(user: false))
+    addPinsToMap(Trail.where(user_id: 0))
   end
   
   def user_history
@@ -24,7 +25,7 @@ class MapController < ApplicationController
     if (not current_user)
       puts '**** NOT AUTHENTICATED **** '
 	    flash.now[:notice] = "You need to be logged in to view your history."
-      addPinsToMap(Trail.where(user: false))
+      addPinsToMap(Trail.where(user_id: 0))
     
     else
       puts '**** AUTHENTICATED **** '
@@ -33,7 +34,7 @@ class MapController < ApplicationController
       puts current_user
       @map = Map.create({:authenticated => true, :user_id => current_user.id})
       #@map = Map.create(:authenticaed => true, :kind => "default")
-      trails = Trail.where(user: true)
+      trails = Trail.where(user_id: current_user.id)
       #removePinsFromMap
       addPinsToMap(trails)
     end
@@ -42,7 +43,7 @@ class MapController < ApplicationController
   
   # get top 10 public trails by biggest count 
   def top10
-    trails = Trail.where(user: false).where('map_id = 1').limit(10).order('count desc')
+    trails = Trail.where(user_id: 0).where('map_id = 1').limit(10).order('count desc')
     trails.each do |d|
       puts d[:name]
     end
@@ -53,7 +54,7 @@ class MapController < ApplicationController
   end
   
   def low10
-    trails = Trail.where(user: false).where('map_id = 1').limit(10).order('count asc')
+    trails = Trail.where(user_id: 0).where('map_id = 1').limit(10).order('count asc')
     trails.each do |d|
       puts d[:name]
     end
@@ -66,17 +67,17 @@ class MapController < ApplicationController
   def popular 
     if current_user 
       setting = current_user.setting
-      trails = Trail.where('count >= ?', setting.number)
+      trails = Trail.where('count >= ?', setting.number).where(user_id: 0)
     else 
       puts DEFAULT
-      trails = Trail.where('count >= ?', DEFAULT)
+      trails = Trail.where('count >= ?', DEFAULT).where(user_id: 0)
     end
     addPinsToMap(trails)
     render 'index'
   end 
   
   def clear_filters
-    trails = Trail.where(user: false)
+    trails = Trail.where(user_id: 0)
     addPinsToMap(trails)
     render 'index'
   end
@@ -87,6 +88,10 @@ class MapController < ApplicationController
     Map.destroy_all
     index
     render 'index'
+  end
+  
+  def return_home
+    redirect_to root_path
   end
   
   

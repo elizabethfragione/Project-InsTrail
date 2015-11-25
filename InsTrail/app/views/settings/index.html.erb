@@ -22,24 +22,35 @@
 						</button>
 
 						<%= link_to(image_tag(
-						image_path("instrail_logo4.png"), class: "tars-logo pull-left", width:"154",height:"46", alt:"Home"), "/index") %>
+						image_path("instrail_logo4.png"), class: "tars-logo pull-left", width:"154",height:"46", alt:"Home"), '/index') %>
 
 						<!--<%= link_to(image_tag(
 						"http://steamworks.com/sites/default/files/logo.png", class: "tars-logo pull-left", size: "76", alt:"Home"), root_path) %>-->
+
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav navbar-right">
-							<!--<li id="about-us"><a id="about-us" href="#about-us">About Us</a></li>-->
-							<li id="about-us">
+							<li id="" style="color:white; margin-top: 12px;">
 								<%= link_to "About", controller: "about" %>
 							</li>
+							<% if current_user %>
 							<li>
-								<button type="button" class="btn btn-primary" id="log-in-button">
-									Log In
-								</button>
+								<%= image_tag current_user.image_url, size: '48x48', style: 'margin-top:8px;' %>
 							</li>
+							<li class="" style="color:white; margin-top: 26px; font-size:16px">
+								<%= current_user.nickname %>
+							</li>
+							<li class="" style="color:white; margin-top: 12px;">
+								<%= link_to 'Log Out', logout_path, method: :delete %>
+							</li>
+							<% else %>
+							<li class="" style="color:white; margin-top: 12px;">
+								<%= link_to 'Log In via Instagram', '/auth/instagram' %>
+							</li>
+							<% end %>
+
 						</ul>
 					</div>
 					<!-- /.navbar-collapse -->
@@ -89,7 +100,7 @@
                         <br>
                         <br>
                         <br>
-                        <p>Old Submit Form To Be Deleted</p>
+                        <!-- <p>Old Submit Form To Be Deleted</p>
 						<form oninput="popularity.value = psetting.valueAsNumber">
 						<label for="setting">Popularity Setting</label>
 						<input type="range"
@@ -124,7 +135,7 @@
 							}
 						</script>
 
-					</form>
+					</form> -->
 
 						<!-- ends jumbotron main -->
 					</div>
